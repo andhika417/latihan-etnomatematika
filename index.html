@@ -6,7 +6,7 @@
     <title>Operasi Hitung Etnomatematika Bali</title>
     <!-- Memuat Tailwind CSS untuk styling responsif --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* --- BACKGROUND ANIMATION DENGAN ELEMEN BUDAYA BALI --- (SANGAT RAMAI) */
+        /* --- BACKGROUND ANIMATION DENGAN ELEMEN BUDAYA BALI --- (SANGAT SANGAT RAMAI, TOTAL 25 ELEMEN) */
         @keyframes moveDiagonal1 {
             0% { transform: translate(0, 0); }
             50% { transform: translate(80px, 80px); }
@@ -18,7 +18,7 @@
             100% { transform: translate(0, 0); }
         }
         @keyframes rotateFade {
-            0% { transform: rotate(0deg); opacity: 0.15; } /* Opacity normal */
+            0% { transform: rotate(0deg); opacity: 0.15; }
             50% { transform: rotate(180deg); opacity: 0.25; }
             100% { transform: rotate(360deg); opacity: 0.15; }
         }
@@ -49,6 +49,11 @@
             0% { transform: scale(0.9) rotate(0deg); }
             50% { transform: scale(1.1) rotate(5deg); }
             100% { transform: scale(0.9) rotate(0deg); }
+        }
+        /* NEW ANIMATION: Quick Spiral */
+        @keyframes quickSpiral {
+            0% { transform: rotate(0deg) scale(1); }
+            100% { transform: rotate(360deg) scale(0.8); }
         }
 
 
@@ -82,12 +87,20 @@
         /* NEW: Flashcard 3D Flip CSS */
         .flashcard-container {
             perspective: 1000px;
-            height: 450px; /* Tinggi Tetap */
+            height: 450px; /* Tinggi Tetap untuk Desktop/Tablet */
             width: 100%;
             max-width: 450px; /* Lebar Maksimal Kartu */
             margin: 0 auto;
             position: relative;
             z-index: 10; /* KARTU SELALU DI ATAS BACKGROUND */
+        }
+        
+        /* PENYESUAIAN RESPONSIVITAS: Tinggi kartu di Mobile */
+        @media (max-width: 640px) {
+            .flashcard-container {
+                height: 70vh; /* Menggunakan 70% dari tinggi viewport di HP */
+                max-height: 450px;
+            }
         }
 
         .card-inner {
@@ -135,25 +148,39 @@
             transform: rotateY(180deg);
         }
         
-        /* Elemen Background Tambahan (OPASITAS DIUBAH KE 0.20) */
+        /* Elemen Background Tambahan (OPASITAS DIKEMBALIKAN KE 0.18/0.20) */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7f3e8; /* DIUBAH KEMBALI: Warna latar ke Krem/Pasir */
+            background-color: #f7f3e8; /* DIKEMBALIKAN: Warna Krem/Pasir */
             min-height: 100vh;
             overflow: hidden; 
             position: relative;
+            /* PENYESUAIAN RESPONSIVITAS: Mengurangi padding vertikal di mobile */
+            padding: 1rem;
         }
-        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15 {
+        
+        /* PENYESUAIAN: Menyembunyikan elemen background yang terlalu besar di mobile */
+        @media (max-width: 640px) {
+            .bg-element-1, .bg-element-2, .bg-element-6, .bg-element-9, .bg-element-13, .bg-element-14, .bg-element-16, .bg-element-18, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
+                display: none;
+            }
+            .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-7, .bg-element-8, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-15, .bg-element-17, .bg-element-19 {
+                opacity: 0.18; /* Opasitas lebih tinggi untuk mobile */
+                transform: scale(0.6); /* Ukuran lebih kecil */
+            }
+        }
+        
+        /* --- STYLING BACKGROUND ELEMENTS --- (Opasitas default 0.20) */
+        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15, .bg-element-16, .bg-element-17, .bg-element-18, .bg-element-19, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
             content: '';
             position: absolute;
             background-repeat: no-repeat;
-            opacity: 0.15; /* Opasitas sedang agar terlihat samar di latar terang */
+            opacity: 0.20; /* DIKEMBALIKAN: Opasitas sangat ramai */
             z-index: -1; 
             pointer-events: none; 
         }
 
-        /* --- STYLING BACKGROUND ELEMENTS --- */
-        /* Catatan: Warna fill SVG di dalam data URI akan tetap sama, yang penting adalah opacity global */
+        /* Elemen 1 hingga 15 (dipertahankan) */
         .bg-element-1 {
             top: 20%; left: -80px; width: 180px; height: 180px;
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M50 0c-27.614 0-50 22.386-50 50h10c0-22.091 17.909-40 40-40s40 17.909 40 40-17.909 40-40 40V90c22.091 0 40-17.909 40-40S72.091 10 50 10V0z"/></svg>');
@@ -213,33 +240,868 @@
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 0, 100 25, 100 50 C 100 75, 75 100, 50 100 C 25 100, 0 75, 0 50 C 0 25, 25 0, 50 0 Z"/></svg>'); /* Bunga Oranye Bulat */
             animation: moveDiagonal2 16s ease-in-out infinite reverse;
         }
+        /* PERUBAHAN: Kotak Biru Rotasi menjadi Mainan Anak */
         .bg-element-12 {
-            bottom: 20%; left: 25%; width: 60px; height: 60px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" fill="%234682b4" transform="rotate(45 50 50)"/></svg>'); /* Kotak Biru Rotasi */
-            animation: rotateFade 20s linear infinite;
+            bottom: 20%; left: 25%; width: 80px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="%234682b4" transform="rotate(20 50 50)"/><rect x="30" y="30" width="40" height="40" rx="5" fill="%23e1ad01"/></svg>'); /* Kotak Mainan Rotasi */
+            animation: rotateFade 18s linear infinite;
         }
+        /* PERUBAHAN: Atap Pura menjadi Rumput/Dedaunan Organik */
         .bg-element-13 {
             top: 0%; left: 15%; width: 150px; height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23a0522d" d="M20 10 L 80 10 L 90 40 L 10 40 Z"/></svg>'); /* Atap Pura Cokelat */
-            animation: moveHorizontalWave 25s ease-in-out infinite reverse;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M10 50 Q 30 20, 50 50 T 90 50 Q 80 80, 50 80 T 10 50 Z"/></svg>'); /* Daun/Rumput Organik Hijau */
+            animation: floatUpDown 15s ease-in-out infinite reverse;
         }
+        /* PERUBAHAN: Dot Magenta menjadi Bunga Ceria */
         .bg-element-14 {
             top: 50%; left: 0%; width: 80px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e75480" opacity="0.6"/></svg>'); /* Dot Magenta */
-            animation: tinyBubble 10s linear infinite, floatUpDown 10s ease-in-out infinite;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ff8c00"/><circle cx="50" cy="50" r="15" fill="%23ff4500"/></svg>'); /* Bunga Ceria Oranye */
+            animation: scalePulse 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
         }
+        /* PERUBAHAN: Diamond Hijau menjadi Mainan Balok */
         .bg-element-15 {
             bottom: 10%; right: 5%; width: 90px; height: 90px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond Hijau */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(-15 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
             animation: slowZoomRotate 20s ease-in-out infinite alternate;
         }
 
+        /* NEW 5 ELEMENTS (16 - 20) */
+        .bg-element-16 {
+            top: 5%; left: 5%; width: 60px; height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e75480" d="M50 10 L 90 50 L 50 90 L 10 50 Z"/></svg>'); /* Diamond Magenta Rotasi Cepat */
+            animation: rotateFade 10s linear infinite, tinyBubble 8s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-17 {
+            bottom: 5%; left: 40%; width: 180px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%23a0522d" d="M0 20 C 20 0, 80 0, 100 20 L 100 40 L 0 40 Z"/></svg>'); /* Gelombang Cokelat Bawah */
+            animation: moveHorizontalWave 15s ease-in-out infinite reverse;
+            transform: scale(0.9);
+        }
+        .bg-element-18 {
+            top: 40%; right: 5%; width: 90px; height: 90px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%234682b4" opacity="0.4"/></svg>'); /* Dot Biru Besar */
+            animation: floatUpDown 13s ease-in-out infinite;
+        }
+        .bg-element-19 {
+            bottom: 25%; left: 1%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ffd700"/></svg>'); /* Dot Emas Kecil */
+            animation: tinyBubble 9s linear infinite;
+        }
+        .bg-element-20 {
+            top: 25%; left: 40%; width: 120px; height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond Hijau Besar */
+            animation: slowZoomRotate 22s ease-in-out infinite reverse;
+            transform: scale(0.8);
+        }
+
+        /* NEW 5 ELEMENTS (21 - 25) */
+        .bg-element-21 {
+            top: 60%; right: 20%; width: 70px; height: 70px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 25, 75 75, 50 100 C 25 75, 25 25, 50 0 Z"/></svg>'); /* Bunga Gaya Layang-Layang */
+            animation: moveDiagonal1 16s linear infinite alternate, rotateFade 12s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-22 {
+            bottom: 30%; left: 15%; width: 100px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path fill="%238fbc8f" d="M0 50 L 20 0 L 80 0 L 100 50 Z"/></svg>'); /* Balok Kayu Hijau */
+            animation: moveHorizontalWave 18s ease-in-out infinite;
+            transform: scale(0.8) rotate(-10deg);
+        }
+        .bg-element-23 {
+            top: 15%; right: 60%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23e75480"/><path d="M50 10 L 60 50 L 50 90 L 40 50 Z" fill="%23ffd700"/></svg>'); /* Bintang Magenta Kuning */
+            animation: tinyBubble 10s linear infinite, scalePulse 6s linear infinite;
+        }
+        .bg-element-24 {
+            bottom: 40%; left: 30%; width: 60px; height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(30 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
+            animation: rotateFade 25s linear infinite;
+        }
+        .bg-element-25 {
+            top: 55%; left: 3%; width: 100px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 C 70 20, 70 80, 50 100 C 30 80, 30 20, 50 0 Z"/></svg>'); /* Daun Merah Panjang */
+            animation: floatUpDown 14s ease-in-out infinite alternate;
+        }
+
+
+        /* NEW: Styling Tombol Panah */
+        #next-card-button, #prev-card-button { /* Menerapkan styling ke kedua tombol */
+            width: 64px; /* Lebar tetap */
+            height: 64px; /* Tinggi tetap */
+            border-radius: 50%; /* Bulat */
+            font-size: 2.5rem; /* Panah besar */
+            line-height: 1;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s;
+            transform: scale(1);
+        }
+        #next-card-button:not(:disabled):hover, #prev-card-button:not(:disabled):hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 15px -3px rgba(225, 173, 1, 0.5), 0 4px 6px -2px rgba(225, 173, 1, 0.05);
+        }
+        #next-card-button:disabled, #prev-card-button:disabled {
+            cursor: not-allowed;
+            background-color: #fce3a8 !important; /* Warna emas pucat */
+            color: #d1b17a !important; /* Warna cokelat sangat pudar */
+        }
+
+        /* NEW: Flashcard 3D Flip CSS */
+        .flashcard-container {
+            perspective: 1000px;
+            height: 450px; /* Tinggi Tetap untuk Desktop/Tablet */
+            width: 100%;
+            max-width: 450px; /* Lebar Maksimal Kartu */
+            margin: 0 auto;
+            position: relative;
+            z-index: 10; /* KARTU SELALU DI ATAS BACKGROUND */
+        }
+        
+        /* PENYESUAIAN RESPONSIVITAS: Tinggi kartu di Mobile */
+        @media (max-width: 640px) {
+            .flashcard-container {
+                height: 70vh; /* Menggunakan 70% dari tinggi viewport di HP */
+                max-height: 450px;
+            }
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s; /* Kecepatan Flip */
+            transform-style: preserve-3d;
+        }
+
+        .card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Penting untuk animasi 3D */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 5px solid #a0522d; /* BORDER COKELAT */
+            box-shadow: 10px 10px 0px #e1ad01; /* SHADOW EMAS */
+            background-color: #ffffff;
+        }
+
+        .card-front {
+            background-color: #fffff0; /* Warna kartu lebih terang */
+            z-index: 2;
+            color: #a0522d;
+            transition: box-shadow 0.3s;
+        }
+        .card-front:hover {
+            box-shadow: 12px 12px 0px #e1ad01;
+        }
+
+        .card-back {
+            background-color: #a0522d; /* Cokelat tua untuk belakang */
+            color: #ffffff;
+            transform: rotateY(180deg);
+        }
+        
+        /* Elemen Background Tambahan (OPASITAS DIKEMBALIKAN KE 0.18/0.20) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f3e8; /* DIKEMBALIKAN: Warna Krem/Pasir */
+            min-height: 100vh;
+            overflow: hidden; 
+            position: relative;
+            /* PENYESUAIAN RESPONSIVITAS: Mengurangi padding vertikal di mobile */
+            padding: 1rem;
+        }
+        
+        /* PENYESUAIAN: Menyembunyikan elemen background yang terlalu besar di mobile */
+        @media (max-width: 640px) {
+            .bg-element-1, .bg-element-2, .bg-element-6, .bg-element-9, .bg-element-13, .bg-element-14, .bg-element-16, .bg-element-18, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
+                display: none;
+            }
+            .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-7, .bg-element-8, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-15, .bg-element-17, .bg-element-19 {
+                opacity: 0.18; /* Opasitas lebih tinggi untuk mobile */
+                transform: scale(0.6); /* Ukuran lebih kecil */
+            }
+        }
+        
+        /* --- STYLING BACKGROUND ELEMENTS --- (Opasitas default 0.20) */
+        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15, .bg-element-16, .bg-element-17, .bg-element-18, .bg-element-19, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
+            content: '';
+            position: absolute;
+            background-repeat: no-repeat;
+            opacity: 0.20; /* DIKEMBALIKAN: Opasitas sangat ramai */
+            z-index: -1; 
+            pointer-events: none; 
+        }
+
+        /* Elemen 1 hingga 15 (dipertahankan) */
+        .bg-element-1 {
+            top: 20%; left: -80px; width: 180px; height: 180px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M50 0c-27.614 0-50 22.386-50 50h10c0-22.091 17.909-40 40-40s40 17.909 40 40-17.909 40-40 40V90c22.091 0 40-17.909 40-40S72.091 10 50 10V0z"/></svg>');
+            animation: rotateFade 25s linear infinite alternate, floatUpDown 10s ease-in-out infinite alternate;
+        }
+        .bg-element-2 {
+            bottom: 15%; right: -60px; width: 200px; height: 200px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0c-16.568 0-30 13.432-30 30 0 10 5 15 10 15 5 0 5-10 10-10C45 35 45 40 50 40c5 0 5-5 10-5 5 0 10 5 10 5 0 10 5 15 10 15 16.568 0 30-13.432 30-30S66.568 0 50 0z"/></svg>');
+            animation: moveDiagonal1 18s ease-in-out infinite reverse, scalePulse 8s ease-in-out infinite;
+            transform: rotate(30deg);
+        }
+        .bg-element-3 {
+            top: -30px; right: 10%; width: 150px; height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23ff4500"/><circle cx="50" cy="20" r="15" fill="%23ffd700"/><circle cx="80" cy="50" r="15" fill="%23ffd700"/><circle cx="50" cy="80" r="15" fill="%23ffd700"/><circle cx="20" cy="50" r="15" fill="%23ffd700"/></svg>');
+            animation: floatUpDown 15s ease-in-out infinite alternate-reverse, rotateFade 30s linear infinite;
+        }
+        .bg-element-4 {
+            bottom: -50px; left: 5%; width: 120px; height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="15" fill="%23a0522d" opacity="0.8"/><rect x="15" y="30" width="70" height="15" fill="%238fbc8f" opacity="0.8"/><rect x="10" y="50" width="80" height="15" fill="%23e1ad01" opacity="0.8"/><rect x="15" y="70" width="70" height="15" fill="%23a0522d" opacity="0.8"/></svg>');
+            animation: floatUpDown 11s ease-in-out infinite reverse;
+            transform: rotate(-5deg);
+        }
+        .bg-element-5 {
+            top: 5%; right: 30%; width: 100px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e1ad01" opacity="0.5"/><circle cx="50" cy="50" r="25" fill="%23a0522d"/></svg>');
+            animation: rotateFade 35s linear infinite;
+        }
+        .bg-element-6 {
+            bottom: 10%; left: -80px; width: 250px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%238fbc8f" d="M0 20 Q 25 0, 50 20 T 100 20 L 100 40 L 0 40 Z"/></svg>');
+            animation: moveHorizontalWave 14s ease-in-out infinite alternate;
+        }
+        .bg-element-7 {
+            top: -20px; left: 45%; width: 80px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="10" fill="%23a0522d"/><circle cx="50" cy="50" r="35" fill="none" stroke="%23e1ad01" stroke-width="5"/></svg>');
+            animation: rotateFade 28s linear infinite;
+        }
+        
+        /* NEW ELEMENTS (8, 9, 10, 11, 12, 13, 14, 15) */
+        .bg-element-8 {
+            bottom: 35%; right: 10%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond/Ketupat */
+            animation: tinyBubble 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
+        }
+        .bg-element-9 {
+            top: 10%; left: 10%; width: 70px; height: 70px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23a0522d" opacity="0.4"/></svg>'); /* Cokelat Dot Besar */
+            animation: floatUpDown 18s ease-in-out infinite reverse;
+        }
+        .bg-element-10 {
+            bottom: 0%; right: 40%; width: 150px; height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M0 50 Q 25 25, 50 50 T 100 50 L 100 100 L 0 100 Z"/></svg>'); /* Motif Ukiran Bawah */
+            animation: scalePulse 15s ease-in-out infinite;
+        }
+        .bg-element-11 {
+            top: 25%; right: -20px; width: 100px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 0, 100 25, 100 50 C 100 75, 75 100, 50 100 C 25 100, 0 75, 0 50 C 0 25, 25 0, 50 0 Z"/></svg>'); /* Bunga Oranye Bulat */
+            animation: moveDiagonal2 16s ease-in-out infinite reverse;
+        }
+        /* PERUBAHAN: Kotak Biru Rotasi menjadi Mainan Anak */
+        .bg-element-12 {
+            bottom: 20%; left: 25%; width: 80px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="%234682b4" transform="rotate(20 50 50)"/><rect x="30" y="30" width="40" height="40" rx="5" fill="%23e1ad01"/></svg>'); /* Kotak Mainan Rotasi */
+            animation: rotateFade 18s linear infinite;
+        }
+        /* PERUBAHAN: Atap Pura menjadi Rumput/Dedaunan Organik */
+        .bg-element-13 {
+            top: 0%; left: 15%; width: 150px; height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M10 50 Q 30 20, 50 50 T 90 50 Q 80 80, 50 80 T 10 50 Z"/></svg>'); /* Daun/Rumput Organik Hijau */
+            animation: floatUpDown 15s ease-in-out infinite reverse;
+        }
+        /* PERUBAHAN: Dot Magenta menjadi Bunga Ceria */
+        .bg-element-14 {
+            top: 50%; left: 0%; width: 80px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ff8c00"/><circle cx="50" cy="50" r="15" fill="%23ff4500"/></svg>'); /* Bunga Ceria Oranye */
+            animation: scalePulse 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
+        }
+        /* PERUBAHAN: Diamond Hijau menjadi Mainan Balok */
+        .bg-element-15 {
+            bottom: 10%; right: 5%; width: 90px; height: 90px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(-15 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
+            animation: slowZoomRotate 20s ease-in-out infinite alternate;
+        }
+
+        /* NEW 5 ELEMENTS (16 - 20) */
+        .bg-element-16 {
+            top: 5%; left: 5%; width: 60px; height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e75480" d="M50 10 L 90 50 L 50 90 L 10 50 Z"/></svg>'); /* Diamond Magenta Rotasi Cepat */
+            animation: rotateFade 10s linear infinite, tinyBubble 8s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-17 {
+            bottom: 5%; left: 40%; width: 180px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%23a0522d" d="M0 20 C 20 0, 80 0, 100 20 L 100 40 L 0 40 Z"/></svg>'); /* Gelombang Cokelat Bawah */
+            animation: moveHorizontalWave 15s ease-in-out infinite reverse;
+            transform: scale(0.9);
+        }
+        .bg-element-18 {
+            top: 40%; right: 5%; width: 90px; height: 90px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%234682b4" opacity="0.4"/></svg>'); /* Dot Biru Besar */
+            animation: floatUpDown 13s ease-in-out infinite;
+        }
+        .bg-element-19 {
+            bottom: 25%; left: 1%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ffd700"/></svg>'); /* Dot Emas Kecil */
+            animation: tinyBubble 9s linear infinite;
+        }
+        .bg-element-20 {
+            top: 25%; left: 40%; width: 120px; height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond Hijau Besar */
+            animation: slowZoomRotate 22s ease-in-out infinite reverse;
+            transform: scale(0.8);
+        }
+
+        /* NEW 5 ELEMENTS (21 - 25) */
+        .bg-element-21 {
+            top: 60%; right: 20%; width: 70px; height: 70px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 25, 75 75, 50 100 C 25 75, 25 25, 50 0 Z"/></svg>'); /* Bunga Gaya Layang-Layang */
+            animation: moveDiagonal1 16s linear infinite alternate, rotateFade 12s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-22 {
+            bottom: 30%; left: 15%; width: 100px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path fill="%238fbc8f" d="M0 50 L 20 0 L 80 0 L 100 50 Z"/></svg>'); /* Balok Kayu Hijau */
+            animation: moveHorizontalWave 18s ease-in-out infinite;
+            transform: scale(0.8) rotate(-10deg);
+        }
+        .bg-element-23 {
+            top: 15%; right: 60%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23e75480"/><path d="M50 10 L 60 50 L 50 90 L 40 50 Z" fill="%23ffd700"/></svg>'); /* Bintang Magenta Kuning */
+            animation: tinyBubble 10s linear infinite, scalePulse 6s linear infinite;
+        }
+        .bg-element-24 {
+            bottom: 40%; left: 30%; width: 60px; height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(30 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
+            animation: rotateFade 25s linear infinite;
+        }
+        .bg-element-25 {
+            top: 55%; left: 3%; width: 100px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 C 70 20, 70 80, 50 100 C 30 80, 30 20, 50 0 Z"/></svg>'); /* Daun Merah Panjang */
+            animation: floatUpDown 14s ease-in-out infinite alternate;
+        }
+
+
+        /* NEW: Styling Tombol Panah */
+        #next-card-button, #prev-card-button { /* Menerapkan styling ke kedua tombol */
+            width: 64px; /* Lebar tetap */
+            height: 64px; /* Tinggi tetap */
+            border-radius: 50%; /* Bulat */
+            font-size: 2.5rem; /* Panah besar */
+            line-height: 1;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s;
+            transform: scale(1);
+        }
+        #next-card-button:not(:disabled):hover, #prev-card-button:not(:disabled):hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 15px -3px rgba(225, 173, 1, 0.5), 0 4px 6px -2px rgba(225, 173, 1, 0.05);
+        }
+        #next-card-button:disabled, #prev-card-button:disabled {
+            cursor: not-allowed;
+            background-color: #fce3a8 !important; /* Warna emas pucat */
+            color: #d1b17a !important; /* Warna cokelat sangat pudar */
+        }
+
+        /* NEW: Flashcard 3D Flip CSS */
+        .flashcard-container {
+            perspective: 1000px;
+            height: 450px; /* Tinggi Tetap untuk Desktop/Tablet */
+            width: 100%;
+            max-width: 450px; /* Lebar Maksimal Kartu */
+            margin: 0 auto;
+            position: relative;
+            z-index: 10; /* KARTU SELALU DI ATAS BACKGROUND */
+        }
+        
+        /* PENYESUAIAN RESPONSIVITAS: Tinggi kartu di Mobile */
+        @media (max-width: 640px) {
+            .flashcard-container {
+                height: 70vh; /* Menggunakan 70% dari tinggi viewport di HP */
+                max-height: 450px;
+            }
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s; /* Kecepatan Flip */
+            transform-style: preserve-3d;
+        }
+
+        .card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Penting untuk animasi 3D */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 5px solid #a0522d; /* BORDER COKELAT */
+            box-shadow: 10px 10px 0px #e1ad01; /* SHADOW EMAS */
+            background-color: #ffffff;
+        }
+
+        .card-front {
+            background-color: #fffff0; /* Warna kartu lebih terang */
+            z-index: 2;
+            color: #a0522d;
+            transition: box-shadow 0.3s;
+        }
+        .card-front:hover {
+            box-shadow: 12px 12px 0px #e1ad01;
+        }
+
+        .card-back {
+            background-color: #a0522d; /* Cokelat tua untuk belakang */
+            color: #ffffff;
+            transform: rotateY(180deg);
+        }
+        
+        /* Elemen Background Tambahan (OPASITAS DIKEMBALIKAN KE 0.18/0.20) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f3e8; /* DIKEMBALIKAN: Warna Krem/Pasir */
+            min-height: 100vh;
+            overflow: hidden; 
+            position: relative;
+            /* PENYESUAIAN RESPONSIVITAS: Mengurangi padding vertikal di mobile */
+            padding: 1rem;
+        }
+        
+        /* PENYESUAIAN: Menyembunyikan elemen background yang terlalu besar di mobile */
+        @media (max-width: 640px) {
+            .bg-element-1, .bg-element-2, .bg-element-6, .bg-element-9, .bg-element-13, .bg-element-14, .bg-element-16, .bg-element-18, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
+                display: none;
+            }
+            .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-7, .bg-element-8, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-15, .bg-element-17, .bg-element-19 {
+                opacity: 0.18; /* Opasitas lebih tinggi untuk mobile */
+                transform: scale(0.6); /* Ukuran lebih kecil */
+            }
+        }
+        
+        /* --- STYLING BACKGROUND ELEMENTS --- (Opasitas default 0.20) */
+        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15, .bg-element-16, .bg-element-17, .bg-element-18, .bg-element-19, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
+            content: '';
+            position: absolute;
+            background-repeat: no-repeat;
+            opacity: 0.20; /* DIKEMBALIKAN: Opasitas sangat ramai */
+            z-index: -1; 
+            pointer-events: none; 
+        }
+
+        /* Animasi per elemen (25 total) */
+        .bg-element-1 {
+            top: 20%; left: -80px; width: 180px; height: 180px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M50 0c-27.614 0-50 22.386-50 50h10c0-22.091 17.909-40 40-40s40 17.909 40 40-17.909 40-40 40V90c22.091 0 40-17.909 40-40S72.091 10 50 10V0z"/></svg>');
+            animation: rotateFade 25s linear infinite alternate, floatUpDown 10s ease-in-out infinite alternate;
+        }
+        .bg-element-2 {
+            bottom: 15%; right: -60px; width: 200px; height: 200px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0c-16.568 0-30 13.432-30 30 0 10 5 15 10 15 5 0 5-10 10-10C45 35 45 40 50 40c5 0 5-5 10-5 5 0 10 5 10 5 0 10 5 15 10 15 16.568 0 30-13.432 30-30S66.568 0 50 0z"/></svg>');
+            animation: moveDiagonal1 18s ease-in-out infinite reverse, scalePulse 8s ease-in-out infinite;
+            transform: rotate(30deg);
+        }
+        .bg-element-3 {
+            top: -30px; right: 10%; width: 150px; height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23ff4500"/><circle cx="50" cy="20" r="15" fill="%23ffd700"/><circle cx="80" cy="50" r="15" fill="%23ffd700"/><circle cx="50" cy="80" r="15" fill="%23ffd700"/><circle cx="20" cy="50" r="15" fill="%23ffd700"/></svg>');
+            animation: floatUpDown 15s ease-in-out infinite alternate-reverse, rotateFade 30s linear infinite;
+        }
+        .bg-element-4 {
+            bottom: -50px; left: 5%; width: 120px; height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="15" fill="%23a0522d" opacity="0.8"/><rect x="15" y="30" width="70" height="15" fill="%238fbc8f" opacity="0.8"/><rect x="10" y="50" width="80" height="15" fill="%23e1ad01" opacity="0.8"/><rect x="15" y="70" width="70" height="15" fill="%23a0522d" opacity="0.8"/></svg>');
+            animation: floatUpDown 11s ease-in-out infinite reverse;
+            transform: rotate(-5deg);
+        }
+        .bg-element-5 {
+            top: 5%; right: 30%; width: 100px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e1ad01" opacity="0.5"/><circle cx="50" cy="50" r="25" fill="%23a0522d"/></svg>');
+            animation: rotateFade 35s linear infinite;
+        }
+        .bg-element-6 {
+            bottom: 10%; left: -80px; width: 250px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%238fbc8f" d="M0 20 Q 25 0, 50 20 T 100 20 L 100 40 L 0 40 Z"/></svg>');
+            animation: moveHorizontalWave 14s ease-in-out infinite alternate;
+        }
+        .bg-element-7 {
+            top: -20px; left: 45%; width: 80px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="10" fill="%23a0522d"/><circle cx="50" cy="50" r="35" fill="none" stroke="%23e1ad01" stroke-width="5"/></svg>');
+            animation: rotateFade 28s linear infinite;
+        }
+        
+        /* NEW ELEMENTS (8, 9, 10, 11, 12, 13, 14, 15) */
+        .bg-element-8 {
+            bottom: 35%; right: 10%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond/Ketupat */
+            animation: tinyBubble 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
+        }
+        .bg-element-9 {
+            top: 10%; left: 10%; width: 70px; height: 70px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23a0522d" opacity="0.4"/></svg>'); /* Cokelat Dot Besar */
+            animation: floatUpDown 18s ease-in-out infinite reverse;
+        }
+        .bg-element-10 {
+            bottom: 0%; right: 40%; width: 150px; height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M0 50 Q 25 25, 50 50 T 100 50 L 100 100 L 0 100 Z"/></svg>'); /* Motif Ukiran Bawah */
+            animation: scalePulse 15s ease-in-out infinite;
+        }
+        .bg-element-11 {
+            top: 25%; right: -20px; width: 100px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 0, 100 25, 100 50 C 100 75, 75 100, 50 100 C 25 100, 0 75, 0 50 C 0 25, 25 0, 50 0 Z"/></svg>'); /* Bunga Oranye Bulat */
+            animation: moveDiagonal2 16s ease-in-out infinite reverse;
+        }
+        /* PERUBAHAN: Kotak Biru Rotasi menjadi Mainan Anak */
+        .bg-element-12 {
+            bottom: 20%; left: 25%; width: 80px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="%234682b4" transform="rotate(20 50 50)"/><rect x="30" y="30" width="40" height="40" rx="5" fill="%23e1ad01"/></svg>'); /* Kotak Mainan Rotasi */
+            animation: rotateFade 18s linear infinite;
+        }
+        /* PERUBAHAN: Atap Pura menjadi Rumput/Dedaunan Organik */
+        .bg-element-13 {
+            top: 0%; left: 15%; width: 150px; height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M10 50 Q 30 20, 50 50 T 90 50 Q 80 80, 50 80 T 10 50 Z"/></svg>'); /* Daun/Rumput Organik Hijau */
+            animation: floatUpDown 15s ease-in-out infinite reverse;
+        }
+        /* PERUBAHAN: Dot Magenta menjadi Bunga Ceria */
+        .bg-element-14 {
+            top: 50%; left: 0%; width: 80px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ff8c00"/><circle cx="50" cy="50" r="15" fill="%23ff4500"/></svg>'); /* Bunga Ceria Oranye */
+            animation: scalePulse 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
+        }
+        /* PERUBAHAN: Diamond Hijau menjadi Mainan Balok */
+        .bg-element-15 {
+            bottom: 10%; right: 5%; width: 90px; height: 90px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(-15 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
+            animation: slowZoomRotate 20s ease-in-out infinite alternate;
+        }
+
+        /* NEW 5 ELEMENTS (16 - 20) */
+        .bg-element-16 {
+            top: 5%; left: 5%; width: 60px; height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e75480" d="M50 10 L 90 50 L 50 90 L 10 50 Z"/></svg>'); /* Diamond Magenta Rotasi Cepat */
+            animation: rotateFade 10s linear infinite, tinyBubble 8s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-17 {
+            bottom: 5%; left: 40%; width: 180px; height: 80px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%23a0522d" d="M0 20 C 20 0, 80 0, 100 20 L 100 40 L 0 40 Z"/></svg>'); /* Gelombang Cokelat Bawah */
+            animation: moveHorizontalWave 15s ease-in-out infinite reverse;
+            transform: scale(0.9);
+        }
+        .bg-element-18 {
+            top: 40%; right: 5%; width: 90px; height: 90px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%234682b4" opacity="0.4"/></svg>'); /* Dot Biru Besar */
+            animation: floatUpDown 13s ease-in-out infinite;
+        }
+        .bg-element-19 {
+            bottom: 25%; left: 1%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ffd700"/></svg>'); /* Dot Emas Kecil */
+            animation: tinyBubble 9s linear infinite;
+        }
+        .bg-element-20 {
+            top: 25%; left: 40%; width: 120px; height: 120px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond Hijau Besar */
+            animation: slowZoomRotate 22s ease-in-out infinite reverse;
+            transform: scale(0.8);
+        }
+
+        /* NEW 5 ELEMENTS (21 - 25) - TEMA TAMBAHAN MAINAN/BUNGA/RUMPUT */
+        .bg-element-21 {
+            top: 60%; right: 20%; width: 70px; height: 70px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 25, 75 75, 50 100 C 25 75, 25 25, 50 0 Z"/></svg>'); /* Bunga Gaya Layang-Layang (ORANGE) */
+            animation: moveDiagonal1 16s linear infinite alternate, rotateFade 12s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-22 {
+            bottom: 30%; left: 15%; width: 100px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path fill="%238fbc8f" d="M0 50 L 20 0 L 80 0 L 100 50 Z"/></svg>'); /* Balok Kayu Hijau (Rumput Abstrak) */
+            animation: moveHorizontalWave 18s ease-in-out infinite;
+            transform: scale(0.8) rotate(-10deg);
+        }
+        .bg-element-23 {
+            top: 15%; right: 60%; width: 50px; height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23e75480"/><path d="M50 10 L 60 50 L 50 90 L 40 50 Z" fill="%23ffd700"/></svg>'); /* Bunga Magenta Kuning */
+            animation: tinyBubble 10s linear infinite, scalePulse 6s linear infinite;
+        }
+        .bg-element-24 {
+            bottom: 40%; left: 30%; width: 60px; height: 60px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%234682b4" transform="rotate(30 50 50)"/></svg>'); /* Balok Biru Rotasi */
+            animation: rotateFade 25s linear infinite;
+        }
+        .bg-element-25 {
+            top: 55%; left: 3%; width: 100px; height: 100px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 C 70 20, 70 80, 50 100 C 30 80, 30 20, 50 0 Z"/></svg>'); /* Daun Merah Panjang */
+            animation: floatUpDown 14s ease-in-out infinite alternate;
+        }
+
+
+        /* NEW: Styling Tombol Panah */
+        #next-card-button, #prev-card-button { /* Menerapkan styling ke kedua tombol */
+            width: 64px; /* Lebar tetap */
+            height: 64px; /* Tinggi tetap */
+            border-radius: 50%; /* Bulat */
+            font-size: 2.5rem; /* Panah besar */
+            line-height: 1;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition: all 0.2s;
+            transform: scale(1);
+        }
+        #next-card-button:not(:disabled):hover, #prev-card-button:not(:disabled):hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 15px -3px rgba(225, 173, 1, 0.5), 0 4px 6px -2px rgba(225, 173, 1, 0.05);
+        }
+        #next-card-button:disabled, #prev-card-button:disabled {
+            cursor: not-allowed;
+            background-color: #fce3a8 !important; /* Warna emas pucat */
+            color: #d1b17a !important; /* Warna cokelat sangat pudar */
+        }
+
+        /* NEW: Flashcard 3D Flip CSS */
+        .flashcard-container {
+            perspective: 1000px;
+            height: 450px; /* Tinggi Tetap untuk Desktop/Tablet */
+            width: 100%;
+            max-width: 450px; /* Lebar Maksimal Kartu */
+            margin: 0 auto;
+            position: relative;
+            z-index: 10; /* KARTU SELALU DI ATAS BACKGROUND */
+        }
+        
+        /* PENYESUAIAN RESPONSIVITAS: Tinggi kartu di Mobile */
+        @media (max-width: 640px) {
+            .flashcard-container {
+                height: 70vh; /* Menggunakan 70% dari tinggi viewport di HP */
+                max-height: 450px;
+            }
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s; /* Kecepatan Flip */
+            transform-style: preserve-3d;
+        }
+
+        .card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Penting untuk animasi 3D */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 5px solid #a0522d; /* BORDER COKELAT */
+            box-shadow: 10px 10px 0px #e1ad01; /* SHADOW EMAS */
+            background-color: #ffffff;
+        }
+
+        .card-front {
+            background-color: #fffff0; /* Warna kartu lebih terang */
+            z-index: 2;
+            color: #a0522d;
+            transition: box-shadow 0.3s;
+        }
+        .card-front:hover {
+            box-shadow: 12px 12px 0px #e1ad01;
+        }
+
+        .card-back {
+            background-color: #a0522d; /* Cokelat tua untuk belakang */
+            color: #ffffff;
+            transform: rotateY(180deg);
+        }
+        
+        /* Elemen Background Tambahan (OPASITAS DIKEMBALIKAN KE 0.18/0.20) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f3e8; /* DIKEMBALIKAN: Warna Krem/Pasir */
+            min-height: 100vh;
+            overflow: hidden; 
+            position: relative;
+            /* PENYESUAIAN RESPONSIVITAS: Mengurangi padding vertikal di mobile */
+            padding: 1rem;
+        }
+        
+        /* PENYESUAIAN: Menyembunyikan elemen background yang terlalu besar di mobile */
+        @media (max-width: 640px) {
+            .bg-element-1, .bg-element-2, .bg-element-6, .bg-element-9, .bg-element-13, .bg-element-14, .bg-element-16, .bg-element-18, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
+                display: none;
+            }
+            .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-7, .bg-element-8, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-15, .bg-element-17, .bg-element-19 {
+                opacity: 0.18; /* Opasitas lebih tinggi untuk mobile */
+                transform: scale(0.6); /* Ukuran lebih kecil */
+            }
+        }
+        
+        /* --- STYLING BACKGROUND ELEMENTS --- (Opasitas default 0.20) */
+        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15, .bg-element-16, .bg-element-17, .bg-element-18, .bg-element-19, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
+            content: '';
+            position: absolute;
+            background-repeat: no-repeat;
+            opacity: 0.20; /* DIKEMBALIKAN: Opasitas sangat ramai */
+            z-index: -1; 
+            pointer-events: none; 
+        }
+
+        /* Animasi per elemen (25 total) */
+        .bg-element-1 {
+            top: 20%; left: -80px; width: 180px; height: 180px;
+            animation: rotateFade 25s linear infinite alternate, floatUpDown 10s ease-in-out infinite alternate;
+        }
+        .bg-element-2 {
+            bottom: 15%; right: -60px; width: 200px; height: 200px;
+            animation: moveDiagonal1 18s ease-in-out infinite reverse, scalePulse 8s ease-in-out infinite;
+            transform: rotate(30deg);
+        }
+        .bg-element-3 {
+            top: -30px; right: 10%; width: 150px; height: 150px;
+            animation: floatUpDown 15s ease-in-out infinite alternate-reverse, rotateFade 30s linear infinite;
+        }
+        .bg-element-4 {
+            bottom: -50px; left: 5%; width: 120px; height: 120px;
+            animation: floatUpDown 11s ease-in-out infinite reverse;
+            transform: rotate(-5deg);
+        }
+        .bg-element-5 {
+            top: 5%; right: 30%; width: 100px; height: 100px;
+            animation: rotateFade 35s linear infinite;
+        }
+        .bg-element-6 {
+            bottom: 10%; left: -80px; width: 250px; height: 100px;
+            animation: moveHorizontalWave 14s ease-in-out infinite alternate;
+        }
+        .bg-element-7 {
+            top: -20px; left: 45%; width: 80px; height: 80px;
+            animation: rotateFade 28s linear infinite;
+        }
+        
+        /* NEW ELEMENTS (8, 9, 10, 11, 12, 13, 14, 15) */
+        .bg-element-8 {
+            bottom: 35%; right: 10%; width: 50px; height: 50px;
+            animation: tinyBubble 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
+        }
+        .bg-element-9 {
+            top: 10%; left: 10%; width: 70px; height: 70px;
+            animation: floatUpDown 18s ease-in-out infinite reverse;
+        }
+        .bg-element-10 {
+            bottom: 0%; right: 40%; width: 150px; height: 150px;
+            animation: scalePulse 15s ease-in-out infinite;
+        }
+        .bg-element-11 {
+            top: 25%; right: -20px; width: 100px; height: 100px;
+            animation: moveDiagonal2 16s ease-in-out infinite reverse;
+        }
+        /* PERUBAHAN: Kotak Biru Rotasi menjadi Mainan Anak */
+        .bg-element-12 {
+            bottom: 20%; left: 25%; width: 80px; height: 80px;
+            animation: rotateFade 18s linear infinite;
+        }
+        /* PERUBAHAN: Atap Pura menjadi Rumput/Dedaunan Organik */
+        .bg-element-13 {
+            top: 0%; left: 15%; width: 150px; height: 150px;
+            animation: floatUpDown 15s ease-in-out infinite reverse;
+        }
+        /* PERUBAHAN: Dot Magenta menjadi Bunga Ceria */
+        .bg-element-14 {
+            top: 50%; left: 0%; width: 80px; height: 80px;
+            animation: scalePulse 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
+        }
+        /* PERUBAHAN: Diamond Hijau menjadi Mainan Balok */
+        .bg-element-15 {
+            bottom: 10%; right: 5%; width: 90px; height: 90px;
+            animation: slowZoomRotate 20s ease-in-out infinite alternate;
+        }
+
+        /* NEW 5 ELEMENTS (16 - 20) */
+        .bg-element-16 {
+            top: 5%; left: 5%; width: 60px; height: 60px;
+            animation: rotateFade 10s linear infinite, tinyBubble 8s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-17 {
+            bottom: 5%; left: 40%; width: 180px; height: 80px;
+            animation: moveHorizontalWave 15s ease-in-out infinite reverse;
+            transform: scale(0.9);
+        }
+        .bg-element-18 {
+            top: 40%; right: 5%; width: 90px; height: 90px;
+            animation: floatUpDown 13s ease-in-out infinite;
+        }
+        .bg-element-19 {
+            bottom: 25%; left: 1%; width: 50px; height: 50px;
+            animation: tinyBubble 9s linear infinite;
+        }
+        .bg-element-20 {
+            top: 25%; left: 40%; width: 120px; height: 120px;
+            animation: slowZoomRotate 22s ease-in-out infinite reverse;
+            transform: scale(0.8);
+        }
+
+        /* NEW 5 ELEMENTS (21 - 25) - TEMA TAMBAHAN MAINAN/BUNGA/RUMPUT */
+        .bg-element-21 {
+            top: 60%; right: 20%; width: 70px; height: 70px;
+            animation: moveDiagonal1 16s linear infinite alternate, rotateFade 12s linear infinite;
+            transform: scale(0.7);
+        }
+        .bg-element-22 {
+            bottom: 30%; left: 15%; width: 100px; height: 50px;
+            animation: moveHorizontalWave 18s ease-in-out infinite;
+            transform: scale(0.8) rotate(-10deg);
+        }
+        .bg-element-23 {
+            top: 15%; right: 60%; width: 50px; height: 50px;
+            animation: tinyBubble 10s linear infinite, scalePulse 6s linear infinite;
+        }
+        .bg-element-24 {
+            bottom: 40%; left: 30%; width: 60px; height: 60px;
+            animation: rotateFade 25s linear infinite;
+        }
+        .bg-element-25 {
+            top: 55%; left: 3%; width: 100px; height: 100px;
+            animation: floatUpDown 14s ease-in-out infinite alternate;
+        }
 
     </style>
 </head>
 <body class="p-4 flex items-center justify-center min-h-screen">
 
-    <!-- Elemen Background Tambahan (TOTAL 15 ELEMEN) -->
+    <!-- Elemen Background Tambahan (TOTAL 25 ELEMEN) -->
     <div class="bg-element-1"></div>
     <div class="bg-element-2"></div>
     <div class="bg-element-3"></div>
@@ -255,6 +1117,16 @@
     <div class="bg-element-13"></div>
     <div class="bg-element-14"></div>
     <div class="bg-element-15"></div>
+    <div class="bg-element-16"></div>
+    <div class="bg-element-17"></div>
+    <div class="bg-element-18"></div>
+    <div class="bg-element-19"></div>
+    <div class="bg-element-20"></div>
+    <div class="bg-element-21"></div>
+    <div class="bg-element-22"></div>
+    <div class="bg-element-23"></div>
+    <div class="bg-element-24"></div>
+    <div class="bg-element-25"></div>
 
 
     <div id="quiz-app" class="quiz-card max-w-xl w-full p-6 sm:p-8 rounded-xl bg-transparent shadow-none border-none">
@@ -285,19 +1157,28 @@
                         <p id="question-text-display" class="text-3xl font-extrabold text-center mt-4"></p>
                     </div>
 
-                    <!-- Sisi Belakang Kartu (HANYA KONFIRMASI) -->
+                    <!-- Sisi Belakang Kartu (Jawaban) -->
                     <div class="card-face card-back" id="card-back">
-                        <p class="text-4xl font-extrabold text-[#E1AD01] mb-8">Latihan Selesai?</p>
-                        
-                        <div class="flex space-x-4 mt-8 justify-center">
-                            <!-- TOMBOL LANJUT -->
-                            <button id="next-card-inside-button" class="btn-primary px-10 py-3 rounded-xl shadow-md bg-[#e1ad01] text-[#a0522d]">
-                                Lanjut &raquo;
-                            </button>
-                        </div>
+                        <p class="text-3xl font-extrabold text-white mb-4">Jawaban yang Benar Adalah:</p>
+                        <p id="answer-display" class="text-6xl font-extrabold text-[#E1AD01] mb-6"></p>
+                        <p id="item-display" class="text-2xl font-bold text-white opacity-90"></p>
                     </div>
                 </div>
             </div>
+            
+            <!-- TOMBOL NAVIGASI DI LUAR KARTU -->
+            <div class="flex justify-center items-center space-x-6 pt-4">
+                <!-- TOMBOL SEBELUMNYA -->
+                <button id="prev-card-button" class="btn-primary disabled:opacity-50" disabled>
+                    &laquo;
+                </button>
+
+                <!-- TOMBOL LANJUT -->
+                <button id="next-card-button" class="btn-primary disabled:opacity-50">
+                    &raquo;
+                </button>
+            </div>
+
 
             <!-- Kontrol Navigasi Footer (Hanya Index) -->
             <div class="text-center pt-4 flex justify-center items-center px-4 sm:px-0">
@@ -652,11 +1533,11 @@
         let flashcardData = [
             { questionText: "1 Canang Sari + 5 Canang Sari = ...", answerValue: 6, answerItem: "Canang Sari", svg: generateItemSVG('Canang Sari', 6) },
             { questionText: "15 Meru Pura - 5 Meru Pura = ...", answerValue: 10, answerItem: "Meru Pura", svg: generateItemSVG('Meru Pura', 10) },
-            { questionText: "5 Udeng - 2 Udeng = ...", answerValue: 3, answerItem: "Udeng (Ikat Kepala)", svg: generateItemSVG('Udeng (Ikat Kepala)', 3) },
+            { questionText: "5 Udeng - 2 Udeng = ...", answerValue: 3, answerItem: "Udeng", svg: generateItemSVG('Udeng (Ikat Kepala)', 3) },
             { questionText: "2 Penari Barong + 13 Penari Barong = ...", answerValue: 15, answerItem: "Penari Barong", svg: generateItemSVG('Penari Barong', 15) },
             { questionText: "11 Topeng Bali - 3 Topeng Bali = ...", answerValue: 8, answerItem: "Topeng Bali", svg: generateItemSVG('Topeng Bali', 8) },
-            { questionText: "6 Gapura + 6 Gapura = ...", answerValue: 12, answerItem: "Gapura Candi Bentar", svg: generateItemSVG('Gapura Candi Bentar', 12) },
-            { questionText: "2 Banten + 3 Banten = ...", answerValue: 5, answerItem: "Banten (Persembahan)", svg: generateItemSVG('Banten (Persembahan)', 5) },
+            { questionText: "6 Gapura + 6 Gapura = ...", answerValue: 12, answerItem: "Gapura", svg: generateItemSVG('Gapura Candi Bentar', 12) },
+            { questionText: "2 Banten + 3 Banten = ...", answerValue: 5, answerItem: "Banten", svg: generateItemSVG('Banten (Persembahan)', 5) },
             { questionText: "20 Gamelan - 6 Gamelan = ...", answerValue: 14, answerItem: "Alat Gamelan", svg: generateItemSVG('Gamelan', 14) },
             { questionText: "10 Saluran Subak - 3 Saluran Subak = ...", answerValue: 7, answerItem: "Saluran Subak", svg: generateItemSVG('Saluran Subak', 7) },
             { questionText: "4 Layang-layang + 5 Layang-layang = ...", answerValue: 9, answerItem: "Layang-layang Bali", svg: generateItemSVG('Layang-layang', 9) }
@@ -677,10 +1558,11 @@
             cardFront: document.getElementById('card-front'),
             cardBack: document.getElementById('card-back'),
             questionTextDisplay: document.getElementById('question-text-display'),
-            answerValuePlaceholder: document.getElementById('answer-value-placeholder'), 
-            answerItemPlaceholder: document.getElementById('answer-item-placeholder'), 
+            answerDisplay: document.getElementById('answer-display'), // Untuk menampilkan nilai jawaban
+            itemDisplay: document.getElementById('item-display'), // Untuk menampilkan nama item
             quizSvgContainerFront: document.getElementById('quiz-svg-container-front'), 
-            nextCardInsideButton: document.getElementById('next-card-inside-button'), 
+            nextCardButton: document.getElementById('next-card-button'), 
+            prevCardButton: document.getElementById('prev-card-button'),
             currentQIndexDisplay: document.getElementById('current-q-index'),
             totalQCountDisplay: document.getElementById('total-q-count'),
             resultArea: document.getElementById('result-area'),
@@ -693,7 +1575,11 @@
         /* --- Fungsi Logika Flashcard --- */
 
         function updateNavigationButtons(elements) {
-            elements.nextCardInsideButton.disabled = !isFlipped;
+            // PERBAIKAN: Tombol Lanjut SELALU AKTIF, kecuali saat transisi atau di akhir sesi.
+            elements.nextCardButton.disabled = false; // Selalu aktif
+            
+            // Mengaktifkan tombol Sebelumnya hanya jika bukan kartu pertama
+            elements.prevCardButton.disabled = (currentCardIndex === 0);
         }
 
         function loadCard() {
@@ -714,12 +1600,19 @@
             elements.questionTextDisplay.textContent = card.questionText;
             elements.quizSvgContainerFront.innerHTML = card.svg;
             
-            /* 2. Muat Sisi Belakang (Konfirmasi/Next) */
-            /* KODE LAMA (DIHILANGKAN): elements.answerValuePlaceholder.textContent = card.answerValue; */
-            /* KODE LAMA (DIHILANGKAN): elements.answerItemPlaceholder.textContent = card.answerItem; */
-
+            /* 2. Muat Sisi Belakang (Jawaban) */
+            elements.answerDisplay.textContent = card.answerValue;
+            elements.itemDisplay.textContent = card.answerItem;
+            
             /* Update footer index */
             elements.currentQIndexDisplay.textContent = currentCardIndex + 1;
+            
+            // Periksa apakah ini kartu terakhir untuk mengubah teks tombol
+            if (currentCardIndex === flashcardData.length - 1) {
+                 elements.nextCardButton.innerHTML = "&raquo;"; // DIUBAH: Kembali ke ikon panah
+            } else {
+                 elements.nextCardButton.innerHTML = "&raquo;";
+            }
             
             /* Update tombol navigasi */
             updateNavigationButtons(elements);
@@ -737,16 +1630,39 @@
                     return; 
                 }
             } else {
-                /* KARTU BELUM TERBALIK: Balik ke belakang (Konfirmasi) */
+                /* KARTU BELUM TERBALIK: Balik ke belakang (Konfirmasi Jawaban) */
                 elements.cardInner.classList.add('is-flipped');
                 isFlipped = true;
-                updateNavigationButtons(elements); /* Aktifkan tombol navigasi */
+                updateNavigationButtons(elements); /* Tombol Lanjut selalu aktif sekarang */
             }
         }
 
         function nextCard() {
             const elements = getDomElements();
-            if (isTransitioning || !isFlipped) return; /* Harus terbalik dan tidak dalam transisi */
+            
+            // --- LOGIKA PERBAIKAN UNTUK KARTU TERAKHIR ---
+            const isLastCard = currentCardIndex === flashcardData.length - 1;
+
+            if (isLastCard) {
+                if (!isFlipped) {
+                    // Jika ini kartu terakhir dan belum dibalik, balikkan dulu
+                    flipCard({ currentTarget: elements.cardInner });
+                    return; // Tunggu klik berikutnya untuk menyelesaikan sesi
+                } else {
+                    // Jika sudah dibalik, langsung tampilkan hasil
+                    showResults();
+                    return;
+                }
+            }
+            
+            // Logika untuk kartu non-terakhir
+            if (!isFlipped) {
+                // Jika belum dibalik, balikkan dulu (opsional, tergantung UX)
+                flipCard({ currentTarget: elements.cardInner }); 
+                return;
+            }
+
+            if (isTransitioning) return; 
             
             currentCardIndex++;
             
@@ -757,9 +1673,27 @@
                 elements.flashcardArea.classList.remove('quiz-exit');
                 elements.flashcardArea.classList.add('quiz-entry');
                 loadCard();
-            }, 50); /* Sesuai durasi CSS quiz-transition */
+            }, 50); 
             
-            elements.flashcardArea.classList.remove('quiz-entry'); /* Reset untuk transisi berikutnya */
+            elements.flashcardArea.classList.remove('quiz-entry'); 
+        }
+        
+        function previousCard() {
+            const elements = getDomElements();
+            if (isTransitioning || currentCardIndex === 0) return; 
+            
+            currentCardIndex--;
+            
+            /* Animasi Transisi Halus (Flashcard Flap) */
+            elements.flashcardArea.classList.add('quiz-exit');
+            
+            setTimeout(() => {
+                elements.flashcardArea.classList.remove('quiz-exit');
+                elements.flashcardArea.classList.add('quiz-entry');
+                loadCard();
+            }, 50); 
+            
+            elements.flashcardArea.classList.remove('quiz-entry'); 
         }
         
         function startSession() {
@@ -778,8 +1712,9 @@
 
             /* Pasang event listener: */
             elements.cardInner.addEventListener('click', flipCard);
-            /* Tombol navigasi memanggil fungsi navigasi langsung */
-            elements.nextCardInsideButton.addEventListener('click', nextCard);
+            /* Tombol navigasi (luar kartu) memanggil fungsi navigasi langsung */
+            elements.nextCardButton.addEventListener('click', nextCard);
+            elements.prevCardButton.addEventListener('click', previousCard);
 
             /* Muat kartu pertama */
             loadCard();
@@ -811,7 +1746,8 @@
             
             /* Hapus event listener flip agar tidak ter-trigger di start screen */
             elements.cardInner.removeEventListener('click', flipCard);
-            elements.nextCardInsideButton.removeEventListener('click', nextCard);
+            elements.nextCardButton.removeEventListener('click', nextCard);
+            elements.prevCardButton.removeEventListener('click', previousCard);
         }
         
         /* --- Eksekusi Awal: Panggil animasi flourish di start slide saat dimuat --- */
