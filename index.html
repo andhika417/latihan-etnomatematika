@@ -350,751 +350,16 @@
             color: #d1b17a !important; /* Warna cokelat sangat pudar */
         }
 
-        /* NEW: Flashcard 3D Flip CSS */
-        .flashcard-container {
-            perspective: 1000px;
-            height: 450px; /* Tinggi Tetap untuk Desktop/Tablet */
-            width: 100%;
-            max-width: 450px; /* Lebar Maksimal Kartu */
-            margin: 0 auto;
-            position: relative;
-            z-index: 10; /* KARTU SELALU DI ATAS BACKGROUND */
-        }
-        
-        /* PENYESUAIAN RESPONSIVITAS: Tinggi kartu di Mobile */
-        @media (max-width: 640px) {
-            .flashcard-container {
-                height: 70vh; /* Menggunakan 70% dari tinggi viewport di HP */
-                max-height: 450px;
-            }
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s; /* Kecepatan Flip */
-            transform-style: preserve-3d;
-        }
-
-        .card-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden; /* Penting untuk animasi 3D */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        /* PERUBAHAN: Styling untuk kontainer gambar agar bisa scroll jika gambar terlalu banyak */
+        #quiz-svg-container-front {
+            /* max-height: 70%; -- DIHAPUS */
+            /* overflow-y: auto; -- DIHAPUS */
+            display: flex; /* Tetap gunakan flex untuk perataan */
             align-items: center;
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 5px solid #a0522d; /* BORDER COKELAT */
-            box-shadow: 10px 10px 0px #e1ad01; /* SHADOW EMAS */
-            background-color: #ffffff;
-        }
-
-        .card-front {
-            background-color: #fffff0; /* Warna kartu lebih terang */
-            z-index: 2;
-            color: #a0522d;
-            transition: box-shadow 0.3s;
-        }
-        .card-front:hover {
-            box-shadow: 12px 12px 0px #e1ad01;
-        }
-
-        .card-back {
-            background-color: #a0522d; /* Cokelat tua untuk belakang */
-            color: #ffffff;
-            transform: rotateY(180deg);
-        }
-        
-        /* Elemen Background Tambahan (OPASITAS DIKEMBALIKAN KE 0.18/0.20) */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f3e8; /* DIKEMBALIKAN: Warna Krem/Pasir */
-            min-height: 100vh;
-            overflow: hidden; 
-            position: relative;
-            /* PENYESUAIAN RESPONSIVITAS: Mengurangi padding vertikal di mobile */
-            padding: 1rem;
-        }
-        
-        /* PENYESUAIAN: Menyembunyikan elemen background yang terlalu besar di mobile */
-        @media (max-width: 640px) {
-            .bg-element-1, .bg-element-2, .bg-element-6, .bg-element-9, .bg-element-13, .bg-element-14, .bg-element-16, .bg-element-18, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
-                display: none;
-            }
-            .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-7, .bg-element-8, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-15, .bg-element-17, .bg-element-19 {
-                opacity: 0.18; /* Opasitas lebih tinggi untuk mobile */
-                transform: scale(0.6); /* Ukuran lebih kecil */
-            }
-        }
-        
-        /* --- STYLING BACKGROUND ELEMENTS --- (Opasitas default 0.20) */
-        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15, .bg-element-16, .bg-element-17, .bg-element-18, .bg-element-19, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
-            content: '';
-            position: absolute;
-            background-repeat: no-repeat;
-            opacity: 0.20; /* DIKEMBALIKAN: Opasitas sangat ramai */
-            z-index: -1; 
-            pointer-events: none; 
-        }
-
-        /* Elemen 1 hingga 15 (dipertahankan) */
-        .bg-element-1 {
-            top: 20%; left: -80px; width: 180px; height: 180px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M50 0c-27.614 0-50 22.386-50 50h10c0-22.091 17.909-40 40-40s40 17.909 40 40-17.909 40-40 40V90c22.091 0 40-17.909 40-40S72.091 10 50 10V0z"/></svg>');
-            animation: rotateFade 25s linear infinite alternate, floatUpDown 10s ease-in-out infinite alternate;
-        }
-        .bg-element-2 {
-            bottom: 15%; right: -60px; width: 200px; height: 200px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0c-16.568 0-30 13.432-30 30 0 10 5 15 10 15 5 0 5-10 10-10C45 35 45 40 50 40c5 0 5-5 10-5 5 0 10 5 10 5 0 10 5 15 10 15 16.568 0 30-13.432 30-30S66.568 0 50 0z"/></svg>');
-            animation: moveDiagonal1 18s ease-in-out infinite reverse, scalePulse 8s ease-in-out infinite;
-            transform: rotate(30deg);
-        }
-        .bg-element-3 {
-            top: -30px; right: 10%; width: 150px; height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23ff4500"/><circle cx="50" cy="20" r="15" fill="%23ffd700"/><circle cx="80" cy="50" r="15" fill="%23ffd700"/><circle cx="50" cy="80" r="15" fill="%23ffd700"/><circle cx="20" cy="50" r="15" fill="%23ffd700"/></svg>');
-            animation: floatUpDown 15s ease-in-out infinite alternate-reverse, rotateFade 30s linear infinite;
-        }
-        .bg-element-4 {
-            bottom: -50px; left: 5%; width: 120px; height: 120px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="15" fill="%23a0522d" opacity="0.8"/><rect x="15" y="30" width="70" height="15" fill="%238fbc8f" opacity="0.8"/><rect x="10" y="50" width="80" height="15" fill="%23e1ad01" opacity="0.8"/><rect x="15" y="70" width="70" height="15" fill="%23a0522d" opacity="0.8"/></svg>');
-            animation: floatUpDown 11s ease-in-out infinite reverse;
-            transform: rotate(-5deg);
-        }
-        .bg-element-5 {
-            top: 5%; right: 30%; width: 100px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e1ad01" opacity="0.5"/><circle cx="50" cy="50" r="25" fill="%23a0522d"/></svg>');
-            animation: rotateFade 35s linear infinite;
-        }
-        .bg-element-6 {
-            bottom: 10%; left: -80px; width: 250px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%238fbc8f" d="M0 20 Q 25 0, 50 20 T 100 20 L 100 40 L 0 40 Z"/></svg>');
-            animation: moveHorizontalWave 14s ease-in-out infinite alternate;
-        }
-        .bg-element-7 {
-            top: -20px; left: 45%; width: 80px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="10" fill="%23a0522d"/><circle cx="50" cy="50" r="35" fill="none" stroke="%23e1ad01" stroke-width="5"/></svg>');
-            animation: rotateFade 28s linear infinite;
-        }
-        
-        /* NEW ELEMENTS (8, 9, 10, 11, 12, 13, 14, 15) */
-        .bg-element-8 {
-            bottom: 35%; right: 10%; width: 50px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond/Ketupat */
-            animation: tinyBubble 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
-        }
-        .bg-element-9 {
-            top: 10%; left: 10%; width: 70px; height: 70px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23a0522d" opacity="0.4"/></svg>'); /* Cokelat Dot Besar */
-            animation: floatUpDown 18s ease-in-out infinite reverse;
-        }
-        .bg-element-10 {
-            bottom: 0%; right: 40%; width: 150px; height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M0 50 Q 25 25, 50 50 T 100 50 L 100 100 L 0 100 Z"/></svg>'); /* Motif Ukiran Bawah */
-            animation: scalePulse 15s ease-in-out infinite;
-        }
-        .bg-element-11 {
-            top: 25%; right: -20px; width: 100px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 0, 100 25, 100 50 C 100 75, 75 100, 50 100 C 25 100, 0 75, 0 50 C 0 25, 25 0, 50 0 Z"/></svg>'); /* Bunga Oranye Bulat */
-            animation: moveDiagonal2 16s ease-in-out infinite reverse;
-        }
-        /* PERUBAHAN: Kotak Biru Rotasi menjadi Mainan Anak */
-        .bg-element-12 {
-            bottom: 20%; left: 25%; width: 80px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="%234682b4" transform="rotate(20 50 50)"/><rect x="30" y="30" width="40" height="40" rx="5" fill="%23e1ad01"/></svg>'); /* Kotak Mainan Rotasi */
-            animation: rotateFade 18s linear infinite;
-        }
-        /* PERUBAHAN: Atap Pura menjadi Rumput/Dedaunan Organik */
-        .bg-element-13 {
-            top: 0%; left: 15%; width: 150px; height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M10 50 Q 30 20, 50 50 T 90 50 Q 80 80, 50 80 T 10 50 Z"/></svg>'); /* Daun/Rumput Organik Hijau */
-            animation: floatUpDown 15s ease-in-out infinite reverse;
-        }
-        /* PERUBAHAN: Dot Magenta menjadi Bunga Ceria */
-        .bg-element-14 {
-            top: 50%; left: 0%; width: 80px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ff8c00"/><circle cx="50" cy="50" r="15" fill="%23ff4500"/></svg>'); /* Bunga Ceria Oranye */
-            animation: scalePulse 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
-        }
-        /* PERUBAHAN: Diamond Hijau menjadi Mainan Balok */
-        .bg-element-15 {
-            bottom: 10%; right: 5%; width: 90px; height: 90px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(-15 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
-            animation: slowZoomRotate 20s ease-in-out infinite alternate;
-        }
-
-        /* NEW 5 ELEMENTS (16 - 20) */
-        .bg-element-16 {
-            top: 5%; left: 5%; width: 60px; height: 60px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e75480" d="M50 10 L 90 50 L 50 90 L 10 50 Z"/></svg>'); /* Diamond Magenta Rotasi Cepat */
-            animation: rotateFade 10s linear infinite, tinyBubble 8s linear infinite;
-            transform: scale(0.7);
-        }
-        .bg-element-17 {
-            bottom: 5%; left: 40%; width: 180px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%23a0522d" d="M0 20 C 20 0, 80 0, 100 20 L 100 40 L 0 40 Z"/></svg>'); /* Gelombang Cokelat Bawah */
-            animation: moveHorizontalWave 15s ease-in-out infinite reverse;
-            transform: scale(0.9);
-        }
-        .bg-element-18 {
-            top: 40%; right: 5%; width: 90px; height: 90px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%234682b4" opacity="0.4"/></svg>'); /* Dot Biru Besar */
-            animation: floatUpDown 13s ease-in-out infinite;
-        }
-        .bg-element-19 {
-            bottom: 25%; left: 1%; width: 50px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ffd700"/></svg>'); /* Dot Emas Kecil */
-            animation: tinyBubble 9s linear infinite;
-        }
-        .bg-element-20 {
-            top: 25%; left: 40%; width: 120px; height: 120px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond Hijau Besar */
-            animation: slowZoomRotate 22s ease-in-out infinite reverse;
-            transform: scale(0.8);
-        }
-
-        /* NEW 5 ELEMENTS (21 - 25) */
-        .bg-element-21 {
-            top: 60%; right: 20%; width: 70px; height: 70px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 25, 75 75, 50 100 C 25 75, 25 25, 50 0 Z"/></svg>'); /* Bunga Gaya Layang-Layang */
-            animation: moveDiagonal1 16s linear infinite alternate, rotateFade 12s linear infinite;
-            transform: scale(0.7);
-        }
-        .bg-element-22 {
-            bottom: 30%; left: 15%; width: 100px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path fill="%238fbc8f" d="M0 50 L 20 0 L 80 0 L 100 50 Z"/></svg>'); /* Balok Kayu Hijau */
-            animation: moveHorizontalWave 18s ease-in-out infinite;
-            transform: scale(0.8) rotate(-10deg);
-        }
-        .bg-element-23 {
-            top: 15%; right: 60%; width: 50px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23e75480"/><path d="M50 10 L 60 50 L 50 90 L 40 50 Z" fill="%23ffd700"/></svg>'); /* Bintang Magenta Kuning */
-            animation: tinyBubble 10s linear infinite, scalePulse 6s linear infinite;
-        }
-        .bg-element-24 {
-            bottom: 40%; left: 30%; width: 60px; height: 60px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(30 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
-            animation: rotateFade 25s linear infinite;
-        }
-        .bg-element-25 {
-            top: 55%; left: 3%; width: 100px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 C 70 20, 70 80, 50 100 C 30 80, 30 20, 50 0 Z"/></svg>'); /* Daun Merah Panjang */
-            animation: floatUpDown 14s ease-in-out infinite alternate;
-        }
-
-
-        /* NEW: Styling Tombol Panah */
-        #next-card-button, #prev-card-button { /* Menerapkan styling ke kedua tombol */
-            width: 64px; /* Lebar tetap */
-            height: 64px; /* Tinggi tetap */
-            border-radius: 50%; /* Bulat */
-            font-size: 2.5rem; /* Panah besar */
-            line-height: 1;
-            padding: 0;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-            transition: all 0.2s;
-            transform: scale(1);
-        }
-        #next-card-button:not(:disabled):hover, #prev-card-button:not(:disabled):hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 15px -3px rgba(225, 173, 1, 0.5), 0 4px 6px -2px rgba(225, 173, 1, 0.05);
-        }
-        #next-card-button:disabled, #prev-card-button:disabled {
-            cursor: not-allowed;
-            background-color: #fce3a8 !important; /* Warna emas pucat */
-            color: #d1b17a !important; /* Warna cokelat sangat pudar */
-        }
-
-        /* NEW: Flashcard 3D Flip CSS */
-        .flashcard-container {
-            perspective: 1000px;
-            height: 450px; /* Tinggi Tetap untuk Desktop/Tablet */
-            width: 100%;
-            max-width: 450px; /* Lebar Maksimal Kartu */
-            margin: 0 auto;
-            position: relative;
-            z-index: 10; /* KARTU SELALU DI ATAS BACKGROUND */
-        }
-        
-        /* PENYESUAIAN RESPONSIVITAS: Tinggi kartu di Mobile */
-        @media (max-width: 640px) {
-            .flashcard-container {
-                height: 70vh; /* Menggunakan 70% dari tinggi viewport di HP */
-                max-height: 450px;
-            }
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s; /* Kecepatan Flip */
-            transform-style: preserve-3d;
-        }
-
-        .card-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden; /* Penting untuk animasi 3D */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 5px solid #a0522d; /* BORDER COKELAT */
-            box-shadow: 10px 10px 0px #e1ad01; /* SHADOW EMAS */
-            background-color: #ffffff;
-        }
-
-        .card-front {
-            background-color: #fffff0; /* Warna kartu lebih terang */
-            z-index: 2;
-            color: #a0522d;
-            transition: box-shadow 0.3s;
-        }
-        .card-front:hover {
-            box-shadow: 12px 12px 0px #e1ad01;
-        }
-
-        .card-back {
-            background-color: #a0522d; /* Cokelat tua untuk belakang */
-            color: #ffffff;
-            transform: rotateY(180deg);
-        }
-        
-        /* Elemen Background Tambahan (OPASITAS DIKEMBALIKAN KE 0.18/0.20) */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f3e8; /* DIKEMBALIKAN: Warna Krem/Pasir */
-            min-height: 100vh;
-            overflow: hidden; 
-            position: relative;
-            /* PENYESUAIAN RESPONSIVITAS: Mengurangi padding vertikal di mobile */
-            padding: 1rem;
-        }
-        
-        /* PENYESUAIAN: Menyembunyikan elemen background yang terlalu besar di mobile */
-        @media (max-width: 640px) {
-            .bg-element-1, .bg-element-2, .bg-element-6, .bg-element-9, .bg-element-13, .bg-element-14, .bg-element-16, .bg-element-18, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
-                display: none;
-            }
-            .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-7, .bg-element-8, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-15, .bg-element-17, .bg-element-19 {
-                opacity: 0.18; /* Opasitas lebih tinggi untuk mobile */
-                transform: scale(0.6); /* Ukuran lebih kecil */
-            }
-        }
-        
-        /* --- STYLING BACKGROUND ELEMENTS --- (Opasitas default 0.20) */
-        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15, .bg-element-16, .bg-element-17, .bg-element-18, .bg-element-19, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
-            content: '';
-            position: absolute;
-            background-repeat: no-repeat;
-            opacity: 0.20; /* DIKEMBALIKAN: Opasitas sangat ramai */
-            z-index: -1; 
-            pointer-events: none; 
-        }
-
-        /* Animasi per elemen (25 total) */
-        .bg-element-1 {
-            top: 20%; left: -80px; width: 180px; height: 180px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M50 0c-27.614 0-50 22.386-50 50h10c0-22.091 17.909-40 40-40s40 17.909 40 40-17.909 40-40 40V90c22.091 0 40-17.909 40-40S72.091 10 50 10V0z"/></svg>');
-            animation: rotateFade 25s linear infinite alternate, floatUpDown 10s ease-in-out infinite alternate;
-        }
-        .bg-element-2 {
-            bottom: 15%; right: -60px; width: 200px; height: 200px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0c-16.568 0-30 13.432-30 30 0 10 5 15 10 15 5 0 5-10 10-10C45 35 45 40 50 40c5 0 5-5 10-5 5 0 10 5 10 5 0 10 5 15 10 15 16.568 0 30-13.432 30-30S66.568 0 50 0z"/></svg>');
-            animation: moveDiagonal1 18s ease-in-out infinite reverse, scalePulse 8s ease-in-out infinite;
-            transform: rotate(30deg);
-        }
-        .bg-element-3 {
-            top: -30px; right: 10%; width: 150px; height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23ff4500"/><circle cx="50" cy="20" r="15" fill="%23ffd700"/><circle cx="80" cy="50" r="15" fill="%23ffd700"/><circle cx="50" cy="80" r="15" fill="%23ffd700"/><circle cx="20" cy="50" r="15" fill="%23ffd700"/></svg>');
-            animation: floatUpDown 15s ease-in-out infinite alternate-reverse, rotateFade 30s linear infinite;
-        }
-        .bg-element-4 {
-            bottom: -50px; left: 5%; width: 120px; height: 120px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="15" fill="%23a0522d" opacity="0.8"/><rect x="15" y="30" width="70" height="15" fill="%238fbc8f" opacity="0.8"/><rect x="10" y="50" width="80" height="15" fill="%23e1ad01" opacity="0.8"/><rect x="15" y="70" width="70" height="15" fill="%23a0522d" opacity="0.8"/></svg>');
-            animation: floatUpDown 11s ease-in-out infinite reverse;
-            transform: rotate(-5deg);
-        }
-        .bg-element-5 {
-            top: 5%; right: 30%; width: 100px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23e1ad01" opacity="0.5"/><circle cx="50" cy="50" r="25" fill="%23a0522d"/></svg>');
-            animation: rotateFade 35s linear infinite;
-        }
-        .bg-element-6 {
-            bottom: 10%; left: -80px; width: 250px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%238fbc8f" d="M0 20 Q 25 0, 50 20 T 100 20 L 100 40 L 0 40 Z"/></svg>');
-            animation: moveHorizontalWave 14s ease-in-out infinite alternate;
-        }
-        .bg-element-7 {
-            top: -20px; left: 45%; width: 80px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="10" fill="%23a0522d"/><circle cx="50" cy="50" r="35" fill="none" stroke="%23e1ad01" stroke-width="5"/></svg>');
-            animation: rotateFade 28s linear infinite;
-        }
-        
-        /* NEW ELEMENTS (8, 9, 10, 11, 12, 13, 14, 15) */
-        .bg-element-8 {
-            bottom: 35%; right: 10%; width: 50px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond/Ketupat */
-            animation: tinyBubble 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
-        }
-        .bg-element-9 {
-            top: 10%; left: 10%; width: 70px; height: 70px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%23a0522d" opacity="0.4"/></svg>'); /* Cokelat Dot Besar */
-            animation: floatUpDown 18s ease-in-out infinite reverse;
-        }
-        .bg-element-10 {
-            bottom: 0%; right: 40%; width: 150px; height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e1ad01" d="M0 50 Q 25 25, 50 50 T 100 50 L 100 100 L 0 100 Z"/></svg>'); /* Motif Ukiran Bawah */
-            animation: scalePulse 15s ease-in-out infinite;
-        }
-        .bg-element-11 {
-            top: 25%; right: -20px; width: 100px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 0, 100 25, 100 50 C 100 75, 75 100, 50 100 C 25 100, 0 75, 0 50 C 0 25, 25 0, 50 0 Z"/></svg>'); /* Bunga Oranye Bulat */
-            animation: moveDiagonal2 16s ease-in-out infinite reverse;
-        }
-        /* PERUBAHAN: Kotak Biru Rotasi menjadi Mainan Anak */
-        .bg-element-12 {
-            bottom: 20%; left: 25%; width: 80px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="%234682b4" transform="rotate(20 50 50)"/><rect x="30" y="30" width="40" height="40" rx="5" fill="%23e1ad01"/></svg>'); /* Kotak Mainan Rotasi */
-            animation: rotateFade 18s linear infinite;
-        }
-        /* PERUBAHAN: Atap Pura menjadi Rumput/Dedaunan Organik */
-        .bg-element-13 {
-            top: 0%; left: 15%; width: 150px; height: 150px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M10 50 Q 30 20, 50 50 T 90 50 Q 80 80, 50 80 T 10 50 Z"/></svg>'); /* Daun/Rumput Organik Hijau */
-            animation: floatUpDown 15s ease-in-out infinite reverse;
-        }
-        /* PERUBAHAN: Dot Magenta menjadi Bunga Ceria */
-        .bg-element-14 {
-            top: 50%; left: 0%; width: 80px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ff8c00"/><circle cx="50" cy="50" r="15" fill="%23ff4500"/></svg>'); /* Bunga Ceria Oranye */
-            animation: scalePulse 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
-        }
-        /* PERUBAHAN: Diamond Hijau menjadi Mainan Balok */
-        .bg-element-15 {
-            bottom: 10%; right: 5%; width: 90px; height: 90px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23a0522d" transform="rotate(-15 50 50)"/></svg>'); /* Balok Cokelat Rotasi */
-            animation: slowZoomRotate 20s ease-in-out infinite alternate;
-        }
-
-        /* NEW 5 ELEMENTS (16 - 20) */
-        .bg-element-16 {
-            top: 5%; left: 5%; width: 60px; height: 60px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23e75480" d="M50 10 L 90 50 L 50 90 L 10 50 Z"/></svg>'); /* Diamond Magenta Rotasi Cepat */
-            animation: rotateFade 10s linear infinite, tinyBubble 8s linear infinite;
-            transform: scale(0.7);
-        }
-        .bg-element-17 {
-            bottom: 5%; left: 40%; width: 180px; height: 80px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path fill="%23a0522d" d="M0 20 C 20 0, 80 0, 100 20 L 100 40 L 0 40 Z"/></svg>'); /* Gelombang Cokelat Bawah */
-            animation: moveHorizontalWave 15s ease-in-out infinite reverse;
-            transform: scale(0.9);
-        }
-        .bg-element-18 {
-            top: 40%; right: 5%; width: 90px; height: 90px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%234682b4" opacity="0.4"/></svg>'); /* Dot Biru Besar */
-            animation: floatUpDown 13s ease-in-out infinite;
-        }
-        .bg-element-19 {
-            bottom: 25%; left: 1%; width: 50px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23ffd700"/></svg>'); /* Dot Emas Kecil */
-            animation: tinyBubble 9s linear infinite;
-        }
-        .bg-element-20 {
-            top: 25%; left: 40%; width: 120px; height: 120px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%238fbc8f" d="M50 0 L 100 50 L 50 100 L 0 50 Z"/></svg>'); /* Diamond Hijau Besar */
-            animation: slowZoomRotate 22s ease-in-out infinite reverse;
-            transform: scale(0.8);
-        }
-
-        /* NEW 5 ELEMENTS (21 - 25) - TEMA TAMBAHAN MAINAN/BUNGA/RUMPUT */
-        .bg-element-21 {
-            top: 60%; right: 20%; width: 70px; height: 70px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff8c00" d="M50 0 C 75 25, 75 75, 50 100 C 25 75, 25 25, 50 0 Z"/></svg>'); /* Bunga Gaya Layang-Layang (ORANGE) */
-            animation: moveDiagonal1 16s linear infinite alternate, rotateFade 12s linear infinite;
-            transform: scale(0.7);
-        }
-        .bg-element-22 {
-            bottom: 30%; left: 15%; width: 100px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50"><path fill="%238fbc8f" d="M0 50 L 20 0 L 80 0 L 100 50 Z"/></svg>'); /* Balok Kayu Hijau (Rumput Abstrak) */
-            animation: moveHorizontalWave 18s ease-in-out infinite;
-            transform: scale(0.8) rotate(-10deg);
-        }
-        .bg-element-23 {
-            top: 15%; right: 60%; width: 50px; height: 50px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="%23e75480"/><path d="M50 10 L 60 50 L 50 90 L 40 50 Z" fill="%23ffd700"/></svg>'); /* Bunga Magenta Kuning */
-            animation: tinyBubble 10s linear infinite, scalePulse 6s linear infinite;
-        }
-        .bg-element-24 {
-            bottom: 40%; left: 30%; width: 60px; height: 60px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%234682b4" transform="rotate(30 50 50)"/></svg>'); /* Balok Biru Rotasi */
-            animation: rotateFade 25s linear infinite;
-        }
-        .bg-element-25 {
-            top: 55%; left: 3%; width: 100px; height: 100px;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff4500" d="M50 0 C 70 20, 70 80, 50 100 C 30 80, 30 20, 50 0 Z"/></svg>'); /* Daun Merah Panjang */
-            animation: floatUpDown 14s ease-in-out infinite alternate;
-        }
-
-
-        /* NEW: Styling Tombol Panah */
-        #next-card-button, #prev-card-button { /* Menerapkan styling ke kedua tombol */
-            width: 64px; /* Lebar tetap */
-            height: 64px; /* Tinggi tetap */
-            border-radius: 50%; /* Bulat */
-            font-size: 2.5rem; /* Panah besar */
-            line-height: 1;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-            transition: all 0.2s;
-            transform: scale(1);
-        }
-        #next-card-button:not(:disabled):hover, #prev-card-button:not(:disabled):hover {
-            transform: scale(1.1);
-            box-shadow: 0 10px 15px -3px rgba(225, 173, 1, 0.5), 0 4px 6px -2px rgba(225, 173, 1, 0.05);
-        }
-        #next-card-button:disabled, #prev-card-button:disabled {
-            cursor: not-allowed;
-            background-color: #fce3a8 !important; /* Warna emas pucat */
-            color: #d1b17a !important; /* Warna cokelat sangat pudar */
-        }
-
-        /* NEW: Flashcard 3D Flip CSS */
-        .flashcard-container {
-            perspective: 1000px;
-            height: 450px; /* Tinggi Tetap untuk Desktop/Tablet */
-            width: 100%;
-            max-width: 450px; /* Lebar Maksimal Kartu */
-            margin: 0 auto;
-            position: relative;
-            z-index: 10; /* KARTU SELALU DI ATAS BACKGROUND */
-        }
-        
-        /* PENYESUAIAN RESPONSIVITAS: Tinggi kartu di Mobile */
-        @media (max-width: 640px) {
-            .flashcard-container {
-                height: 70vh; /* Menggunakan 70% dari tinggi viewport di HP */
-                max-height: 450px;
-            }
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s; /* Kecepatan Flip */
-            transform-style: preserve-3d;
-        }
-
-        .card-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden; /* Penting untuk animasi 3D */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            border-radius: 1rem;
-            border: 5px solid #a0522d; /* BORDER COKELAT */
-            box-shadow: 10px 10px 0px #e1ad01; /* SHADOW EMAS */
-            background-color: #ffffff;
-        }
-
-        .card-front {
-            background-color: #fffff0; /* Warna kartu lebih terang */
-            z-index: 2;
-            color: #a0522d;
-            transition: box-shadow 0.3s;
-        }
-        .card-front:hover {
-            box-shadow: 12px 12px 0px #e1ad01;
-        }
-
-        .card-back {
-            background-color: #a0522d; /* Cokelat tua untuk belakang */
-            color: #ffffff;
-            transform: rotateY(180deg);
-        }
-        
-        /* Elemen Background Tambahan (OPASITAS DIKEMBALIKAN KE 0.18/0.20) */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f7f3e8; /* DIKEMBALIKAN: Warna Krem/Pasir */
-            min-height: 100vh;
-            overflow: hidden; 
-            position: relative;
-            /* PENYESUAIAN RESPONSIVITAS: Mengurangi padding vertikal di mobile */
-            padding: 1rem;
-        }
-        
-        /* PENYESUAIAN: Menyembunyikan elemen background yang terlalu besar di mobile */
-        @media (max-width: 640px) {
-            .bg-element-1, .bg-element-2, .bg-element-6, .bg-element-9, .bg-element-13, .bg-element-14, .bg-element-16, .bg-element-18, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
-                display: none;
-            }
-            .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-7, .bg-element-8, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-15, .bg-element-17, .bg-element-19 {
-                opacity: 0.18; /* Opasitas lebih tinggi untuk mobile */
-                transform: scale(0.6); /* Ukuran lebih kecil */
-            }
-        }
-        
-        /* --- STYLING BACKGROUND ELEMENTS --- (Opasitas default 0.20) */
-        body::before, body::after, .bg-element-1, .bg-element-2, .bg-element-3, .bg-element-4, .bg-element-5, .bg-element-6, .bg-element-7, .bg-element-8, .bg-element-9, .bg-element-10, .bg-element-11, .bg-element-12, .bg-element-13, .bg-element-14, .bg-element-15, .bg-element-16, .bg-element-17, .bg-element-18, .bg-element-19, .bg-element-20, .bg-element-21, .bg-element-22, .bg-element-23, .bg-element-24, .bg-element-25 {
-            content: '';
-            position: absolute;
-            background-repeat: no-repeat;
-            opacity: 0.20; /* DIKEMBALIKAN: Opasitas sangat ramai */
-            z-index: -1; 
-            pointer-events: none; 
-        }
-
-        /* Animasi per elemen (25 total) */
-        .bg-element-1 {
-            top: 20%; left: -80px; width: 180px; height: 180px;
-            animation: rotateFade 25s linear infinite alternate, floatUpDown 10s ease-in-out infinite alternate;
-        }
-        .bg-element-2 {
-            bottom: 15%; right: -60px; width: 200px; height: 200px;
-            animation: moveDiagonal1 18s ease-in-out infinite reverse, scalePulse 8s ease-in-out infinite;
-            transform: rotate(30deg);
-        }
-        .bg-element-3 {
-            top: -30px; right: 10%; width: 150px; height: 150px;
-            animation: floatUpDown 15s ease-in-out infinite alternate-reverse, rotateFade 30s linear infinite;
-        }
-        .bg-element-4 {
-            bottom: -50px; left: 5%; width: 120px; height: 120px;
-            animation: floatUpDown 11s ease-in-out infinite reverse;
-            transform: rotate(-5deg);
-        }
-        .bg-element-5 {
-            top: 5%; right: 30%; width: 100px; height: 100px;
-            animation: rotateFade 35s linear infinite;
-        }
-        .bg-element-6 {
-            bottom: 10%; left: -80px; width: 250px; height: 100px;
-            animation: moveHorizontalWave 14s ease-in-out infinite alternate;
-        }
-        .bg-element-7 {
-            top: -20px; left: 45%; width: 80px; height: 80px;
-            animation: rotateFade 28s linear infinite;
-        }
-        
-        /* NEW ELEMENTS (8, 9, 10, 11, 12, 13, 14, 15) */
-        .bg-element-8 {
-            bottom: 35%; right: 10%; width: 50px; height: 50px;
-            animation: tinyBubble 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
-        }
-        .bg-element-9 {
-            top: 10%; left: 10%; width: 70px; height: 70px;
-            animation: floatUpDown 18s ease-in-out infinite reverse;
-        }
-        .bg-element-10 {
-            bottom: 0%; right: 40%; width: 150px; height: 150px;
-            animation: scalePulse 15s ease-in-out infinite;
-        }
-        .bg-element-11 {
-            top: 25%; right: -20px; width: 100px; height: 100px;
-            animation: moveDiagonal2 16s ease-in-out infinite reverse;
-        }
-        /* PERUBAHAN: Kotak Biru Rotasi menjadi Mainan Anak */
-        .bg-element-12 {
-            bottom: 20%; left: 25%; width: 80px; height: 80px;
-            animation: rotateFade 18s linear infinite;
-        }
-        /* PERUBAHAN: Atap Pura menjadi Rumput/Dedaunan Organik */
-        .bg-element-13 {
-            top: 0%; left: 15%; width: 150px; height: 150px;
-            animation: floatUpDown 15s ease-in-out infinite reverse;
-        }
-        /* PERUBAHAN: Dot Magenta menjadi Bunga Ceria */
-        .bg-element-14 {
-            top: 50%; left: 0%; width: 80px; height: 80px;
-            animation: scalePulse 12s linear infinite, moveDiagonal1 12s ease-in-out infinite;
-        }
-        /* PERUBAHAN: Diamond Hijau menjadi Mainan Balok */
-        .bg-element-15 {
-            bottom: 10%; right: 5%; width: 90px; height: 90px;
-            animation: slowZoomRotate 20s ease-in-out infinite alternate;
-        }
-
-        /* NEW 5 ELEMENTS (16 - 20) */
-        .bg-element-16 {
-            top: 5%; left: 5%; width: 60px; height: 60px;
-            animation: rotateFade 10s linear infinite, tinyBubble 8s linear infinite;
-            transform: scale(0.7);
-        }
-        .bg-element-17 {
-            bottom: 5%; left: 40%; width: 180px; height: 80px;
-            animation: moveHorizontalWave 15s ease-in-out infinite reverse;
-            transform: scale(0.9);
-        }
-        .bg-element-18 {
-            top: 40%; right: 5%; width: 90px; height: 90px;
-            animation: floatUpDown 13s ease-in-out infinite;
-        }
-        .bg-element-19 {
-            bottom: 25%; left: 1%; width: 50px; height: 50px;
-            animation: tinyBubble 9s linear infinite;
-        }
-        .bg-element-20 {
-            top: 25%; left: 40%; width: 120px; height: 120px;
-            animation: slowZoomRotate 22s ease-in-out infinite reverse;
-            transform: scale(0.8);
-        }
-
-        /* NEW 5 ELEMENTS (21 - 25) - TEMA TAMBAHAN MAINAN/BUNGA/RUMPUT */
-        .bg-element-21 {
-            top: 60%; right: 20%; width: 70px; height: 70px;
-            animation: moveDiagonal1 16s linear infinite alternate, rotateFade 12s linear infinite;
-            transform: scale(0.7);
-        }
-        .bg-element-22 {
-            bottom: 30%; left: 15%; width: 100px; height: 50px;
-            animation: moveHorizontalWave 18s ease-in-out infinite;
-            transform: scale(0.8) rotate(-10deg);
-        }
-        .bg-element-23 {
-            top: 15%; right: 60%; width: 50px; height: 50px;
-            animation: tinyBubble 10s linear infinite, scalePulse 6s linear infinite;
-        }
-        .bg-element-24 {
-            bottom: 40%; left: 30%; width: 60px; height: 60px;
-            animation: rotateFade 25s linear infinite;
-        }
-        .bg-element-25 {
-            top: 55%; left: 3%; width: 100px; height: 100px;
-            animation: floatUpDown 14s ease-in-out infinite alternate;
+            width: 100%; /* Memastikan lebar penuh */
+            flex-grow: 1; /* Membiarkan kontainer ini memakan sisa ruang */
+            min-height: 0; /* Trik Flexbox untuk scaling di dalam container */
         }
 
     </style>
@@ -1151,8 +416,9 @@
                     
                     <!-- Sisi Depan Kartu (Soal) -->
                     <div class="card-face card-front" id="card-front">
-                        <div id="quiz-svg-container-front" class="max-h-full max-w-full rounded-lg object-contain flex items-center justify-center mb-4" style="height: 70%;">
-                            <!-- SVG Gambar akan di-inject di sini -->
+                        <!-- PERUBAHAN: Kontainer ini sekarang akan diisi dengan HTML (tag <img>) -->
+                        <div id="quiz-svg-container-front" class="max-h-full max-w-full rounded-lg object-contain flex items-center justify-center mb-4">
+                            <!-- Gambar <img> akan di-inject di sini oleh JS -->
                         </div>
                         <p id="question-text-display" class="text-3xl font-extrabold text-center mt-4"></p>
                     </div>
@@ -1199,33 +465,6 @@
     </div>
 
     <script>
-        // --- Konstanta Warna Global untuk SVG ---
-        const BROWN = '#A0522D';
-        const DARK_BROWN = '#6B4226';
-        const LIGHT_BROWN = '#F5DEB3';
-        const GOLD = '#E1AD01';
-        const DARK_GOLD = '#C59300';
-        const RED = '#FF4500';
-        const DARK_RED = '#CC3700';
-        const GREEN = '#5F9EA0';
-        const DARK_GREEN = '#006400';
-        const WHITE = '#FFFFFF';
-        const ORANGE = '#FF8C00';
-        const MAGENTA = '#E75480';
-        const BLUE = '#4682B4';
-        const DARK_BLUE = '#2A5D8D';
-        const GREY = '#CCCCCC';
-
-        // Definisi Filter Global
-        const filters = `
-            <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="2" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.4)"/>
-            </filter>
-            <filter id="soft-shadow" x="-50%" y="-50%" width="200%" height="200%">
-                <feDropShadow dx="1" dy="1" stdDeviation="1.5" flood-color="rgba(0,0,0,0.3)"/>
-            </filter>
-        `;
-        
         // --- Fungsi Utility untuk Mengacak Array (Fisher-Yates Shuffle) ---
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -1237,11 +476,12 @@
 
         /**
          * Mengembalikan SVG dekorasi budaya (Flower/Wave)
+         * (Fungsi ini dipertahankan untuk hiasan UI)
          */
         function getFlourishSVG(isLarge = false) {
-            const colorA = BROWN;
-            const colorB = GOLD;
-            const colorR = RED;
+            const colorA = '#a0522d'; // BROWN
+            const colorB = '#e1ad01'; // GOLD
+            const colorR = '#ff4500'; // RED
             const size = isLarge ? 100 : 50;
 
             return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
@@ -1264,283 +504,126 @@
 
 
         /**
-         * Mendefinisikan bentuk SVG yang lebih detail dan berwarna untuk setiap item.
+         * NEW: Menghasilkan string HTML untuk menampilkan gambar dalam grid.
+         * Menggantikan generateItemSVG.
          */
-        function getItemShape(item) {
-            let shape = '';
-            let defs = '';
-
-
-            if (item.includes('Canang Sari')) {
-                defs = `
-                        <linearGradient id="canangBaseGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${LIGHT_BROWN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${BROWN};stop-opacity:1" />
-                        </linearGradient>
-                        <radialGradient id="flowerGold" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                            <stop offset="0%" style="stop-color:${GOLD};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_GOLD};stop-opacity:1" />
-                        </radialGradient>
-                         <radialGradient id="flowerRed" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                            <stop offset="0%" style="stop-color:${RED};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_RED};stop-opacity:1" />
-                        </radialGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.8)" filter="url(#soft-shadow)">
-                        <rect x="-15" y="-5" width="30" height="15" rx="4" fill="url(#canangBaseGradient)" stroke="${DARK_BROWN}" stroke-width="1.5"/>
-                        <path d="M-12,-3 C -10,-10, 10,-10, 12,-3 L 0,-15 Z" fill="${GREEN}" stroke="${DARK_GREEN}" stroke-width="1"/>
-                        <circle cx="-5" cy="-7" r="4" fill="url(#flowerRed)" stroke="${DARK_RED}" stroke-width="0.5"/>
-                        <circle cx="5" cy="-7" r="4" fill="url(#flowerGold)" stroke="${DARK_GOLD}" stroke-width="0.5"/>
-                        <circle cx="0" cy="-2" r="2" fill="${WHITE}" stroke="${GREY}" stroke-width="0.2"/>
-                    </g>`;
-            } else if (item.includes('Meru Pura')) {
-                defs = `
-                        <linearGradient id="meruRoof" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${RED};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_RED};stop-opacity:1" />
-                        </linearGradient>
-                         <linearGradient id="meruBase" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${BROWN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_BROWN};stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="meruWall" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${GOLD};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_GOLD};stop-opacity:1" />
-                        </linearGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.7)" filter="url(#shadow)">
-                        <polygon points="0,-40 -18,-20 18,-20" fill="url(#meruRoof)" stroke="${DARK_RED}" stroke-width="2"/>
-                        <polygon points="0,-20 -23,0 23,0" fill="url(#meruRoof)" stroke="${DARK_RED}" stroke-width="2"/>
-                        <polygon points="0,0 -28,20 28,20" fill="url(#meruRoof)" stroke="${DARK_RED}" stroke-width="2"/>
-                        <rect x="-20" y="20" width="40" height="10" fill="url(#meruWall)" stroke="${DARK_GOLD}" stroke-width="1.5"/>
-                        <rect x="-20" y="30" width="40" height="5" fill="url(#meruBase)" stroke="${DARK_BROWN}" stroke-width="1.5"/>
-                    </g>`;
-            } else if (item.includes('Udeng')) {
-                defs = `
-                        <linearGradient id="udengGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${GOLD};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_GOLD};stop-opacity:1" />
-                        </linearGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.8)" filter="url(#soft-shadow)">
-                        <path d="M-25,10 C -10,-10, 10,-10, 25,10 L 25,-10 C 10,-20, -10,-20, -25,-10 Z" fill="url(#udengGradient)" stroke="${DARK_GOLD}" stroke-width="2"/>
-                        <path d="M-15,10 L 0,-5 L 15,10 Z" fill="${RED}" stroke="${DARK_RED}" stroke-width="1.5"/>
-                        <circle cx="0" cy="-8" r="4" fill="${BROWN}" stroke="${DARK_BROWN}" stroke-width="1"/>
-                    </g>`;
-            } else if (item.includes('Penari Barong')) {
-                defs = `
-                        <radialGradient id="barongFace" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                            <stop offset="0%" style="stop-color:${ORANGE};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_RED};stop-opacity:1" />
-                        </radialGradient>
-                        <linearGradient id="barongMane" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${GOLD};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_GOLD};stop-opacity:1" />
-                        </linearGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.7)" filter="url(#shadow)">
-                        <path d="M-25,-15 C -30,-25, 30,-25, 25,-15 L 20,5 C 10,15, -10,15, -20,5 Z" fill="url(#barongMane)" stroke="${DARK_GOLD}" stroke-width="1.5"/>
-                        <circle cx="0" cy="-5" r="18" fill="url(#barongFace)" stroke="${RED}" stroke-width="2"/>
-                        <path d="M-10,-5 Q -5,0, 0,0 Q 5,0, 10,-5" stroke="${WHITE}" stroke-width="2" fill="none"/>
-                        <circle cx="-7" cy="-10" r="3" fill="black"/>
-                        <circle cx="7" cy="-10" r="3" fill="black"/>
-                        <rect x="-18" y="8" width="36" height="7" fill="${BROWN}" stroke="${DARK_BROWN}" stroke-width="1.5"/>
-                    </g>`;
-            } else if (item.includes('Topeng Bali')) {
-                defs = `
-                        <linearGradient id="maskRed" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${RED};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_RED};stop-opacity:1" />
-                        </linearGradient>
-                        <radialGradient id="maskMouth" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                            <stop offset="0%" style="stop-color:${DARK_BROWN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:black;stop-opacity:1" />
-                        </radialGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.8)" filter="url(#shadow)">
-                        <path d="M-20,-15 C -25,0, 25,0, 20,-15 L 0,-28 Z" fill="url(#maskRed)" stroke="${GOLD}" stroke-width="2"/>
-                        <rect x="-12" y="-2" width="24" height="6" fill="${LIGHT_BROWN}" stroke="${BROWN}" stroke-width="1"/>
-                        <circle cx="-8" cy="-8" r="4" fill="black" stroke="${WHITE}" stroke-width="0.5"/>
-                        <circle cx="8" cy="-8" r="4" fill="black" stroke="${WHITE}" stroke-width="0.5"/>
-                        <path d="M-10,5 Q 0,15, 10,5 Q 0,10, -10,5 Z" fill="url(#maskMouth)"/>
-                    </g>`;
-            } else if (item.includes('Gapura Candi Bentar')) {
-                defs = `
-                        <linearGradient id="gateStone" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${BROWN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_BROWN};stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="gateDecor" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${RED};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_RED};stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="gateTop" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${GOLD};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_GOLD};stop-opacity:1" />
-                        </linearGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.6)" filter="url(#shadow)">
-                        <rect x="-30" y="-35" width="25" height="70" fill="url(#gateStone)" stroke="${DARK_BROWN}" stroke-width="2"/>
-                        <rect x="5" y="-35" width="25" height="70" fill="url(#gateStone)" stroke="${DARK_BROWN}" stroke-width="2"/>
-                        <rect x="-30" y="-35" width="60" height="7" fill="url(#gateDecor)" stroke="${DARK_RED}" stroke-width="1.5"/>
-                        <path d="M-30,-35 L 30,-35 L 30,-45 L -30,-45 Z" fill="url(#gateTop)" stroke="${DARK_GOLD}" stroke-width="1.5"/>
-                        <path d="M-17,-25 L -13,-30 L -10,-25" fill="none" stroke="${GOLD}" stroke-width="1.5"/>
-                        <path d="M17,-25 L 13,-30 L 10,-25" fill="none" stroke="${GOLD}" stroke-width="1.5"/>
-                    </g>`;
-            } else if (item.includes('Banten')) {
-                defs = `
-                        <linearGradient id="bantenBase" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${LIGHT_BROWN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${BROWN};stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="bantenWhite" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${WHITE};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${GREY};stop-opacity:1" />
-                        </linearGradient>
-                        <radialGradient id="bantenFlower1" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                            <stop offset="0%" style="stop-color:${GREEN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_GREEN};stop-opacity:1" />
-                        </radialGradient>
-                         <radialGradient id="bantenFlower2" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                            <stop offset="0%" style="stop-color:${MAGENTA};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${RED};stop-opacity:1" />
-                        </radialGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.8)" filter="url(#soft-shadow)">
-                        <rect x="-18" y="0" width="36" height="12" rx="4" fill="url(#bantenBase)" stroke="${DARK_BROWN}" stroke-width="1.5"/>
-                        <rect x="-12" y="-6" width="24" height="6" fill="url(#bantenWhite)" stroke="${GREY}" stroke-width="1"/>
-                        <circle cx="0" cy="-12" r="5" fill="url(#bantenFlower1)" stroke="${DARK_GREEN}" stroke-width="0.5"/>
-                        <circle cx="-6" cy="-18" r="3" fill="url(#bantenFlower2)" stroke="${RED}" stroke-width="0.5"/>
-                        <circle cx="6" cy="-18" r="3" fill="url(#flowerGold)" stroke="${DARK_GOLD}" stroke-width="0.5"/>
-                    </g>`;
-            } else if (item.includes('Gamelan')) {
-                defs = `
-                        <radialGradient id="gamelanBrass" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-                            <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#DAA520;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
-                        </radialGradient>
-                        <linearGradient id="gamelanWood" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${BROWN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_BROWN};stop-opacity:1" />
-                        </linearGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.8)" filter="url(#shadow)">
-                        <circle cx="0" cy="0" r="18" fill="url(#gamelanBrass)" stroke="#B8860B" stroke-width="2"/>
-                        <circle cx="0" cy="0" r="12" fill="${DARK_BROWN}"/>
-                        <circle cx="0" cy="0" r="6" fill="url(#gamelanBrass)"/>
-                        <rect x="-22" y="10" width="44" height="6" fill="url(#gamelanWood)" stroke="${DARK_BROWN}" stroke-width="1.5"/>
-                    </g>`;
-            } else if (item.includes('Saluran Subak')) {
-                defs = `
-                        <linearGradient id="subakSoil" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${DARK_GREEN};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${BROWN};stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="subakWater" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${BLUE};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_BLUE};stop-opacity:1" />
-                        </linearGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.8)" filter="url(#soft-shadow)">
-                        <path d="M-25,10 L 25,10 L 20,-10 L -20,-10 Z" fill="url(#subakSoil)" stroke="${BROWN}" stroke-width="2"/>
-                        <rect x="-18" y="-8" width="36" height="6" fill="url(#subakWater)"/>
-                        <path d="M-25,-15 C -15,-18, 15,-18, 25,-15" fill="none" stroke="${GREY}" stroke-width="2"/>
-                    </g>`;
-            } else if (item.includes('Layang-layang')) {
-                defs = `
-                        <linearGradient id="kiteRed" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:#CD5C5C;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="kiteTail" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:${ORANGE};stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:${DARK_RED};stop-opacity:1" />
-                        </linearGradient>
-                    `;
-                shape = `
-                    <g transform="scale(0.8)" filter="url(#shadow)">
-                        <path d="M0,-25 L 20,0 L 0,25 L -20,0 Z" fill="url(#kiteRed)" stroke="${DARK_RED}" stroke-width="2"/>
-                        <line x1="0" y1="-25" x2="0" y2="25" stroke="${BROWN}" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="-20" y1="0" x2="20" y2="0" stroke="${GOLD}" stroke-width="3" stroke-linecap="round"/>
-                        <circle cx="0" cy="15" r="3" fill="url(#kiteTail)"/>
-                        <circle cx="0" cy="20" r="2" fill="url(#kiteTail)"/>
-                    </g>`;
+        function generateItemHTML(imageUrl, count) {
+            let itemsHTML = '';
+            // Tentukan ukuran gambar berdasarkan jumlah
+            let imageClass = 'object-contain';
+            if (count <= 5) {
+                imageClass += ' w-20 h-20 sm:w-24 sm:h-24'; // Besar (diperbesar)
+            } else if (count <= 10) {
+                imageClass += ' w-16 h-16 sm:w-20 sm:h-20'; // Sedang (diperbesar)
             } else {
-                 defs = '';
-                 shape = `<circle cx="0" cy="0" r="15" fill="${GREY}"/>`;
-            }
-
-            return { defs, shape };
-        }
-
-        function generateItemSVG(item, count) {
-            const svgItems = [];
-            let allDefs = '';
-            
-            const rows = Math.ceil(Math.sqrt(count));
-            const cols = Math.ceil(count / rows); 
-            const spacing = 55; /* Diperbesar sedikit karena detail item lebih besar */
-            const scaleFactor = 0.8; /* FINAL PERBAIKAN: Meningkatkan skala gambar agar lebih besar di kartu (dari 0.6 ke 0.8) */
-
-            const totalWidth = (cols - 1) * spacing;
-            const totalHeight = (rows - 1) * spacing;
-            const startX = -totalWidth / 2;
-            const startY = -totalHeight / 2;
-
-            /* Ambil shape dan defs dari item */
-            const { defs: itemDefs, shape: itemShape } = getItemShape(item);
-            
-            /* Defs global (filters) */
-            allDefs += filters;
-            /* Defs item-spesifik (gradients) */
-            allDefs += itemDefs;
-
-            for (let i = 0; i < count; i++) {
-                const col = i % cols;
-                const row = Math.floor(i / cols);
-                const x = startX + col * spacing;
-                const y = startY + row * spacing;
-
-                if (i < 15) { 
-                    /* Tambahkan shape tanpa defs */
-                    svgItems.push(`<g transform="translate(${x}, ${y})">${itemShape}</g>`);
-                }
+                imageClass += ' w-12 h-12 sm:w-16 sm:h-16'; // Kecil (diperbesar)
             }
             
-            const width = totalWidth + 100;
-            const height = totalHeight + 100;
-            const viewBox = `${-width/2} ${-height/2} ${width} ${height}`;
+            // Batasi jumlah gambar agar tidak 'meledak' di layar, maks 15.
+            const displayCount = Math.min(count, 15); 
 
-            /* KODE PERBAIKAN: Memastikan semua defs (filter dan gradien) masuk ke tag <defs> utama */
-            return `<svg viewBox="${viewBox}" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="transform: scale(${scaleFactor});">
-                <defs>${allDefs}</defs>
-                ${svgItems.join('')}
-            </svg>`;
+            for (let i = 0; i < displayCount; i++) {
+                // Menggunakan 'onerror' untuk fallback jika URL gambar rusak
+                // Ukuran sekarang dinamis dari imageClass
+                itemsHTML += `
+                    <img 
+                        src="${imageUrl}" 
+                        alt="item" 
+                        class="${imageClass}" 
+                        onerror="this.src='https://placehold.co/100x100/cccccc/333333?text=Error';"
+                    >
+                `;
+            }
+
+            // Jika jumlahnya lebih dari 15, tambahkan teks
+            if (count > 15) {
+                itemsHTML += `<p class="text-lg text-center w-full col-span-full">... dan seterusnya (${count} total)</p>`;
+            }
+
+            // Menggunakan flexbox untuk tata letak
+            // Kontainer ini akan di-scroll jika itemnya terlalu banyak
+            return `
+                <div class="w-full h-full flex flex-wrap justify-center items-center gap-2 p-4">
+                    ${itemsHTML}
+                </div>
+            `;
         }
+
         
         /* --- Konfigurasi Data Flashcard --- */
-        /* Format diubah untuk Flashcard: { questionText: "Soal", answerValue: 5, answerItem: "Canang Sari", svg: "..." } */
+        /* Format diubah untuk menggunakan imageUrl dan generateItemHTML */
+        /* GANTI URL PLACEHOLDER DI BAWAH INI DENGAN URL GAMBAR ANDA */
         let flashcardData = [
-            { questionText: "1 Canang Sari + 5 Canang Sari = ...", answerValue: 6, answerItem: "Canang Sari", svg: generateItemSVG('Canang Sari', 6) },
-            { questionText: "15 Meru Pura - 5 Meru Pura = ...", answerValue: 10, answerItem: "Meru Pura", svg: generateItemSVG('Meru Pura', 10) },
-            { questionText: "5 Udeng - 2 Udeng = ...", answerValue: 3, answerItem: "Udeng", svg: generateItemSVG('Udeng (Ikat Kepala)', 3) },
-            { questionText: "2 Penari Barong + 13 Penari Barong = ...", answerValue: 15, answerItem: "Penari Barong", svg: generateItemSVG('Penari Barong', 15) },
-            { questionText: "11 Topeng Bali - 3 Topeng Bali = ...", answerValue: 8, answerItem: "Topeng Bali", svg: generateItemSVG('Topeng Bali', 8) },
-            { questionText: "6 Gapura + 6 Gapura = ...", answerValue: 12, answerItem: "Gapura", svg: generateItemSVG('Gapura Candi Bentar', 12) },
-            { questionText: "2 Banten + 3 Banten = ...", answerValue: 5, answerItem: "Banten", svg: generateItemSVG('Banten (Persembahan)', 5) },
-            { questionText: "20 Gamelan - 6 Gamelan = ...", answerValue: 14, answerItem: "Alat Gamelan", svg: generateItemSVG('Gamelan', 14) },
-            { questionText: "10 Saluran Subak - 3 Saluran Subak = ...", answerValue: 7, answerItem: "Saluran Subak", svg: generateItemSVG('Saluran Subak', 7) },
-            { questionText: "4 Layang-layang + 5 Layang-layang = ...", answerValue: 9, answerItem: "Layang-layang Bali", svg: generateItemSVG('Layang-layang', 9) }
+            { 
+                questionText: "1 Canang Sari + 5 Canang Sari = ...", 
+                answerValue: 6, 
+                answerItem: "Canang Sari", 
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaIQ92ETwrxHPOI9Zgta4tp-fVbXw94OS_XA&shttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaIQ92ETwrxHPOI9Zgta4tp-fVbXw94OS_XA&s", 
+                html: generateItemHTML("https://placehold.co/100x100/f5deb3/6B4226?text=Canang", 6) 
+            },
+            { 
+                questionText: "15 Pura Meru - 5 Pura Meru = ...", 
+                answerValue: 10, 
+                answerItem: "Pura Meru", 
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR59n_-Fd6cSqFy6sWp-iMXBQXo3x1_slMRZw&s", 
+                html: generateItemHTML("https://placehold.co/100x100/a0522d/FFFFFF?text=Meru", 10) 
+            },
+            { 
+                questionText: "5 Udeng - 2 Udeng = ...", 
+                answerValue: 3, 
+                answerItem: "Udeng", 
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK3Km5LJxOR5OkaYBOu_ZFnnxh6oTUHoCsbw&s", 
+                html: generateItemHTML("https://placehold.co/100x100/e1ad01/a0522d?text=Udeng", 3) 
+            },
+            { 
+                questionText: "2 Penari Barong + 13 Penari Barong = ...", 
+                answerValue: 15, 
+                answerItem: "Penari Barong", 
+                imageUrl: "https://airport.id/wp-content/uploads/2014/10/barong.jpg", 
+                html: generateItemHTML("https://placehold.co/100x100/ff4500/FFFFFF?text=Barong", 15) 
+            },
+            { 
+                questionText: "11 Topeng Bali - 3 Topeng Bali = ...", 
+                answerValue: 8, 
+                answerItem: "Topeng Bali", 
+                imageUrl: "https://down-id.img.susercontent.com/file/a1094de148c4177afae668b36ae657e2", 
+                html: generateItemHTML("https://placehold.co/100x100/6B4226/FFFFFF?text=Topeng", 8) 
+            },
+            { 
+                questionText: "6 Gapura + 6 Gapura = ...", 
+                answerValue: 12, 
+                answerItem: "Gapura", 
+                imageUrl: "https://d3uyff779abz3k.cloudfront.net/-ubudian-/image/Handara-Gate,-Spot-Wisata-Yang-Instagrammable-di-Bali-Utara.jpg", 
+                html: generateItemHTML("https://placehold.co/100x100/a0522d/e1ad01?text=Gapura", 12) 
+            },
+            { 
+                questionText: "2 Banten + 3 Banten = ...", 
+                answerValue: 5, 
+                answerItem: "Banten", 
+                imageUrl: "https://assets-a1.kompasiana.com/items/album/2023/07/09/upakara222-64aa29cc08a8b5317d515ce2.jpg", 
+                html: generateItemHTML("https://placehold.co/100x100/f5deb3/ff4500?text=Banten", 5) 
+            },
+            { 
+                questionText: "20 Gamelan - 6 Gamelan = ...", 
+                answerValue: 14, 
+                answerItem: "Alat Gamelan", 
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjkOHL3gt3fjhF5Qlt-t5XqmTK1oZ5-3IEiA&s", 
+                html: generateItemHTML("https://placehold.co/100x100/e1ad01/6B4226?text=Gamelan", 14) 
+            },
+            { 
+                questionText: "10 Wayang - 3 Wayang = ...", 
+                answerValue: 7, 
+                answerItem: "Wayang", 
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt-xbCJ0JqeUlb4JFY4nhNplG0JUH-bfQdZg&s", 
+                html: generateItemHTML("https://placehold.co/100x100/5f9ea0/006400?text=Subak", 7) 
+            },
+            { 
+                questionText: "4 Layang-layang + 5 Layang-layang = ...", 
+                answerValue: 9, 
+                answerItem: "Layang-layang Bali", 
+                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2t_epsUnTYXo9aieeDRGq21MWEfJF3nHiUA&s", 
+                html: generateItemHTML("https://placehold.co/100x100/ff8c00/FF4500?text=Layangan", 9) 
+            }
         ];
 
         /* --- State Flashcard --- */
@@ -1598,7 +681,12 @@
             
             /* 1. Muat Sisi Depan (Soal) */
             elements.questionTextDisplay.textContent = card.questionText;
-            elements.quizSvgContainerFront.innerHTML = card.svg;
+            
+            // PERUBAHAN: Muat HTML (gambar) baru
+            // Kita perlu membuat ulang data 'html' jika soal diacak
+            // (PERBAIKAN: Panggil generateItemHTML di sini, bukan di data)
+            const cardHTML = generateItemHTML(card.imageUrl, card.answerValue);
+            elements.quizSvgContainerFront.innerHTML = cardHTML;
             
             /* 2. Muat Sisi Belakang (Jawaban) */
             elements.answerDisplay.textContent = card.answerValue;

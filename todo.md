@@ -1,0 +1,5 @@
+- [] Extract CSS from provided HTML's <style> block and consolidate into styles.css, organizing into sections.
+- [] Update index.html to remove <style> block, add <link rel="stylesheet" href="styles.css">, and clean up HTML structure.
+- [] Extract embedded JavaScript to script.js for better organization.
+- [] Update index.html to link to script.js.
+- [] Test the application to ensure everything works.
