@@ -339,6 +339,9 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
             transition: all 0.2s;
             transform: scale(1);
+            /* PERBAIKAN: Tambahkan warna dasar di sini */
+            background-color: #e1ad01; /* Emas */
+            color: #a0522d; /* Cokelat */
         }
         #next-card-button:not(:disabled):hover, #prev-card-button:not(:disabled):hover {
             transform: scale(1.1);
@@ -348,6 +351,7 @@
             cursor: not-allowed;
             background-color: #fce3a8 !important; /* Warna emas pucat */
             color: #d1b17a !important; /* Warna cokelat sangat pudar */
+            opacity: 0.7; /* Ubah dari 0.5 */
         }
 
         /* PERUBAHAN: Styling untuk kontainer gambar agar bisa scroll jika gambar terlalu banyak */
@@ -361,6 +365,19 @@
             flex-grow: 1; /* Membiarkan kontainer ini memakan sisa ruang */
             min-height: 0; /* Trik Flexbox untuk scaling di dalam container */
         }
+        
+        /* Animasi Transisi Kartu */
+        @keyframes quizEntry {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes quizExit {
+            from { opacity: 1; transform: scale(1); }
+            to { opacity: 0; transform: scale(0.95); }
+        }
+        .quiz-entry { animation: quizEntry 0.2s ease-out; }
+        .quiz-exit { animation: quizExit 0.2s ease-in; }
+
 
     </style>
 </head>
@@ -435,12 +452,12 @@
             <!-- TOMBOL NAVIGASI DI LUAR KARTU -->
             <div class="flex justify-center items-center space-x-6 pt-4">
                 <!-- TOMBOL SEBELUMNYA -->
-                <button id="prev-card-button" class="btn-primary disabled:opacity-50" disabled>
+                <button id="prev-card-button" class="disabled:opacity-50" disabled>
                     &laquo;
                 </button>
 
                 <!-- TOMBOL LANJUT -->
-                <button id="next-card-button" class="btn-primary disabled:opacity-50">
+                <button id="next-card-button" class="disabled:opacity-50">
                     &raquo;
                 </button>
             </div>
@@ -543,7 +560,7 @@
             // Menggunakan flexbox untuk tata letak
             // Kontainer ini akan di-scroll jika itemnya terlalu banyak
             return `
-                <div class="w-full h-full flex flex-wrap justify-center items-center gap-2 p-4">
+                <div class="w-full h-full flex flex-wrap justify-center items-center gap-2 p-4 overflow-y-auto">
                     ${itemsHTML}
                 </div>
             `;
@@ -559,70 +576,61 @@
                 answerValue: 6, 
                 answerItem: "Canang Sari", 
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaIQ92ETwrxHPOI9Zgta4tp-fVbXw94OS_XA&shttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaIQ92ETwrxHPOI9Zgta4tp-fVbXw94OS_XA&s", 
-                html: generateItemHTML("https://placehold.co/100x100/f5deb3/6B4226?text=Canang", 6) 
+                // 'html' tidak perlu di-pre-generate lagi, kita panggil generateItemHTML saat loadCard
             },
             { 
-                questionText: "15 Pura Meru - 5 Pura Meru = ...", 
+                questionText: "15 Batik - 5 Batik = ...", 
                 answerValue: 10, 
-                answerItem: "Pura Meru", 
-                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR59n_-Fd6cSqFy6sWp-iMXBQXo3x1_slMRZw&s", 
-                html: generateItemHTML("https://placehold.co/100x100/a0522d/FFFFFF?text=Meru", 10) 
+                answerItem: "Batik", 
+                imageUrl: "https://png.pngtree.com/png-clipart/20221221/original/pngtree-photo-of-mens-long-sleeve-batik-shirt-png-image_8792828.png", 
             },
             { 
                 questionText: "5 Udeng - 2 Udeng = ...", 
                 answerValue: 3, 
                 answerItem: "Udeng", 
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK3Km5LJxOR5OkaYBOu_ZFnnxh6oTUHoCsbw&s", 
-                html: generateItemHTML("https://placehold.co/100x100/e1ad01/a0522d?text=Udeng", 3) 
             },
             { 
                 questionText: "2 Penari Barong + 13 Penari Barong = ...", 
                 answerValue: 15, 
                 answerItem: "Penari Barong", 
                 imageUrl: "https://airport.id/wp-content/uploads/2014/10/barong.jpg", 
-                html: generateItemHTML("https://placehold.co/100x100/ff4500/FFFFFF?text=Barong", 15) 
             },
             { 
                 questionText: "11 Topeng Bali - 3 Topeng Bali = ...", 
                 answerValue: 8, 
                 answerItem: "Topeng Bali", 
                 imageUrl: "https://down-id.img.susercontent.com/file/a1094de148c4177afae668b36ae657e2", 
-                html: generateItemHTML("https://placehold.co/100x100/6B4226/FFFFFF?text=Topeng", 8) 
             },
             { 
-                questionText: "6 Gapura + 6 Gapura = ...", 
+                questionText: "6 Keris + 6 Keris = ...", 
                 answerValue: 12, 
-                answerItem: "Gapura", 
-                imageUrl: "https://d3uyff779abz3k.cloudfront.net/-ubudian-/image/Handara-Gate,-Spot-Wisata-Yang-Instagrammable-di-Bali-Utara.jpg", 
-                html: generateItemHTML("https://placehold.co/100x100/a0522d/e1ad01?text=Gapura", 12) 
+                answerItem: "Keris", 
+                imageUrl: "https://png.pngtree.com/png-clipart/20220816/ourmid/pngtree-keris-gambar-naga-png-image_6111439.png", 
             },
             { 
-                questionText: "2 Banten + 3 Banten = ...", 
+                questionText: "2 Angklung + 3 Angklung = ...", 
                 answerValue: 5, 
-                answerItem: "Banten", 
-                imageUrl: "https://assets-a1.kompasiana.com/items/album/2023/07/09/upakara222-64aa29cc08a8b5317d515ce2.jpg", 
-                html: generateItemHTML("https://placehold.co/100x100/f5deb3/ff4500?text=Banten", 5) 
+                answerItem: "Angklung", 
+                imageUrl: "https://www.shutterstock.com/image-illustration/angklung-musical-instrument-3d-icon-600nw-2235701057.jpg", 
             },
             { 
                 questionText: "20 Gamelan - 6 Gamelan = ...", 
                 answerValue: 14, 
                 answerItem: "Alat Gamelan", 
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjkOHL3gt3fjhF5Qlt-t5XqmTK1oZ5-3IEiA&s", 
-                html: generateItemHTML("https://placehold.co/100x100/e1ad01/6B4226?text=Gamelan", 14) 
             },
             { 
                 questionText: "10 Wayang - 3 Wayang = ...", 
                 answerValue: 7, 
                 answerItem: "Wayang", 
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt-xbCJ0JqeUlb4JFY4nhNplG0JUH-bfQdZg&s", 
-                html: generateItemHTML("https://placehold.co/100x100/5f9ea0/006400?text=Subak", 7) 
             },
             { 
-                questionText: "4 Layang-layang + 5 Layang-layang = ...", 
+                questionText: "4 Tari Saman + 5 Tari Saman = ...", 
                 answerValue: 9, 
-                answerItem: "Layang-layang Bali", 
-                imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2t_epsUnTYXo9aieeDRGq21MWEfJF3nHiUA&s", 
-                html: generateItemHTML("https://placehold.co/100x100/ff8c00/FF4500?text=Layangan", 9) 
+                answerItem: "Tari Saman", 
+                imageUrl: "https://womensobsession.com/uploads/post_article/20241121150354-cf55a.jpg", 
             }
         ];
 
@@ -658,11 +666,11 @@
         /* --- Fungsi Logika Flashcard --- */
 
         function updateNavigationButtons(elements) {
-            // PERBAIKAN: Tombol Lanjut SELALU AKTIF, kecuali saat transisi atau di akhir sesi.
-            elements.nextCardButton.disabled = false; // Selalu aktif
+            // Tombol Lanjut (Next/Selesai)
+            elements.nextCardButton.disabled = isTransitioning;
             
             // Mengaktifkan tombol Sebelumnya hanya jika bukan kartu pertama
-            elements.prevCardButton.disabled = (currentCardIndex === 0);
+            elements.prevCardButton.disabled = (currentCardIndex === 0) || isTransitioning;
         }
 
         function loadCard() {
@@ -674,8 +682,12 @@
             }
 
             isTransitioning = true;
+            
+            // --- INI BAGIAN PENTING ---
+            // Selalu reset status flip saat memuat kartu baru
             isFlipped = false;
             elements.cardInner.classList.remove('is-flipped');
+            // -------------------------
             
             const card = flashcardData[currentCardIndex];
             
@@ -683,8 +695,7 @@
             elements.questionTextDisplay.textContent = card.questionText;
             
             // PERUBAHAN: Muat HTML (gambar) baru
-            // Kita perlu membuat ulang data 'html' jika soal diacak
-            // (PERBAIKAN: Panggil generateItemHTML di sini, bukan di data)
+            // Panggil generateItemHTML di sini
             const cardHTML = generateItemHTML(card.imageUrl, card.answerValue);
             elements.quizSvgContainerFront.innerHTML = cardHTML;
             
@@ -695,93 +706,110 @@
             /* Update footer index */
             elements.currentQIndexDisplay.textContent = currentCardIndex + 1;
             
+            // *** PERBAIKAN TOMBOL NEXT/SELESAI ***
             // Periksa apakah ini kartu terakhir untuk mengubah teks tombol
             if (currentCardIndex === flashcardData.length - 1) {
-                 elements.nextCardButton.innerHTML = "&raquo;"; // DIUBAH: Kembali ke ikon panah
+                elements.nextCardButton.innerHTML = "Selesai"; // Ganti teks jadi Selesai
             } else {
-                 elements.nextCardButton.innerHTML = "&raquo;";
+                elements.nextCardButton.innerHTML = "&raquo;"; // Teks panah
             }
+            // ***************************************
             
             /* Update tombol navigasi */
             updateNavigationButtons(elements);
 
-            isTransitioning = false;
+            // Tambahkan sedikit delay agar CSS transisi selesai
+            setTimeout(() => {
+                isTransitioning = false;
+                updateNavigationButtons(elements); // Update lagi stlh transisi
+            }, 200); // Sesuaikan dengan durasi animasi quiz-entry/exit
         }
 
         function flipCard(event) {
             const elements = getDomElements();
             if (isTransitioning) return;
             
-            if (isFlipped) {
-                /* KARTU SUDAH TERBALIK: ABAIKAN klik pada kartu itu sendiri */
-                if (event.currentTarget === elements.cardInner) {
-                    return; 
-                }
-            } else {
-                /* KARTU BELUM TERBALIK: Balik ke belakang (Konfirmasi Jawaban) */
-                elements.cardInner.classList.add('is-flipped');
-                isFlipped = true;
-                updateNavigationButtons(elements); /* Tombol Lanjut selalu aktif sekarang */
-            }
-        }
-
-        function nextCard() {
-            const elements = getDomElements();
-            
-            // --- LOGIKA PERBAIKAN UNTUK KARTU TERAKHIR ---
-            const isLastCard = currentCardIndex === flashcardData.length - 1;
-
-            if (isLastCard) {
-                if (!isFlipped) {
-                    // Jika ini kartu terakhir dan belum dibalik, balikkan dulu
-                    flipCard({ currentTarget: elements.cardInner });
-                    return; // Tunggu klik berikutnya untuk menyelesaikan sesi
-                } else {
-                    // Jika sudah dibalik, langsung tampilkan hasil
-                    showResults();
-                    return;
-                }
-            }
-            
-            // Logika untuk kartu non-terakhir
-            if (!isFlipped) {
-                // Jika belum dibalik, balikkan dulu (opsional, tergantung UX)
-                flipCard({ currentTarget: elements.cardInner }); 
+            // Hanya flip jika user mengklik 'cardInner', bukan tombol navigasi
+            if (event.currentTarget !== elements.cardInner) {
                 return;
             }
 
+            // Balikkan kartu
+            isFlipped = !isFlipped;
+            elements.cardInner.classList.toggle('is-flipped');
+        }
+
+
+        // *** FUNGSI nextCard() DIPERBAIKI ***
+        function nextCard() {
+            const elements = getDomElements();
+            
+            const isLastCard = currentCardIndex === flashcardData.length - 1;
+
+            if (isLastCard) {
+                // Jika ini kartu terakhir (tombol bertulis "Selesai"),
+                // langsung tampilkan hasil.
+                showResults();
+                return;
+            }
+            
             if (isTransitioning) return; 
+            isTransitioning = true; // Kunci transisi SEGERA
+
+            // *** INI PERBAIKANNYA ***
+            // Balikkan kartu ke depan SEBELUM animasi exit dimulai
+            if (isFlipped) {
+                elements.cardInner.classList.remove('is-flipped');
+                isFlipped = false;
+            }
+            // ************************
             
             currentCardIndex++;
             
             /* Animasi Transisi Halus (Flashcard Flap) */
-            elements.flashcardArea.classList.add('quiz-exit');
-            
+            // Tambahkan jeda SANGAT singkat (10ms) untuk memastikan DOM 
+            // memproses flip-back SEBELUM animasi exit.
             setTimeout(() => {
-                elements.flashcardArea.classList.remove('quiz-exit');
-                elements.flashcardArea.classList.add('quiz-entry');
-                loadCard();
-            }, 50); 
-            
-            elements.flashcardArea.classList.remove('quiz-entry'); 
+                elements.flashcardArea.classList.add('quiz-exit');
+                
+                setTimeout(() => {
+                    elements.flashcardArea.classList.remove('quiz-exit');
+                    elements.flashcardArea.classList.add('quiz-entry');
+                    
+                    // loadCard() akan dipanggil.
+                    // loadCard() akan me-reset isTransitioning = false setelah 200ms.
+                    loadCard(); 
+
+                }, 200); // Samakan durasi dengan CSS transition
+            }, 10); // Jeda 10ms
         }
         
         function previousCard() {
             const elements = getDomElements();
             if (isTransitioning || currentCardIndex === 0) return; 
+            isTransitioning = true; // Kunci transisi SEGERA
+
+            // *** INI PERBAIKANNYA ***
+            // Balikkan kartu ke depan SEBELUM animasi exit dimulai
+            if (isFlipped) {
+                elements.cardInner.classList.remove('is-flipped');
+                isFlipped = false;
+            }
+            // ************************
             
             currentCardIndex--;
             
             /* Animasi Transisi Halus (Flashcard Flap) */
-            elements.flashcardArea.classList.add('quiz-exit');
-            
+            // Tambahkan jeda SANGAT singkat (10ms)
             setTimeout(() => {
-                elements.flashcardArea.classList.remove('quiz-exit');
-                elements.flashcardArea.classList.add('quiz-entry');
-                loadCard();
-            }, 50); 
-            
-            elements.flashcardArea.classList.remove('quiz-entry'); 
+                elements.flashcardArea.classList.add('quiz-exit');
+                
+                setTimeout(() => {
+                    elements.flashcardArea.classList.remove('quiz-exit');
+                    elements.flashcardArea.classList.add('quiz-entry');
+                    loadCard(); // loadCard() akan me-reset isTransitioning
+                }, 200); // Samakan durasi
+            }, 10); // Jeda 10ms
         }
         
         function startSession() {
@@ -792,6 +820,7 @@
             
             elements.startArea.classList.add('hidden');
             elements.flashcardArea.classList.remove('hidden');
+            elements.flashcardArea.classList.add('quiz-entry'); // Animasi masuk
             
             /* Hapus flourish dari start-area */
             if(elements.startFlourish) {
@@ -800,6 +829,7 @@
 
             /* Pasang event listener: */
             elements.cardInner.addEventListener('click', flipCard);
+            
             /* Tombol navigasi (luar kartu) memanggil fungsi navigasi langsung */
             elements.nextCardButton.addEventListener('click', nextCard);
             elements.prevCardButton.addEventListener('click', previousCard);
@@ -811,7 +841,10 @@
         function showResults() {
             const elements = getDomElements();
             elements.flashcardArea.classList.add('hidden');
+            elements.flashcardArea.classList.remove('quiz-entry'); // Hapus sisa animasi
+            
             elements.resultArea.classList.remove('hidden');
+            elements.resultArea.classList.add('quiz-entry'); // Animasi masuk
 
             /* Tambahkan animasi flourish Bali di layar hasil */
             animateFlourish('result-flourish', true);
@@ -822,8 +855,12 @@
             currentCardIndex = 0;
             
             elements.resultArea.classList.add('hidden');
+            elements.resultArea.classList.remove('quiz-entry'); // Hapus sisa animasi
+            
             /* Kembali ke layar awal (yang akan mengacak soal lagi saat mulai) */
             elements.startArea.classList.remove('hidden');
+            elements.startArea.classList.add('quiz-entry'); // Animasi masuk
+            
             elements.flashcardArea.classList.add('hidden');
             
             /* Hapus animasi flourish dari result-area */
@@ -847,6 +884,22 @@
             /* Pasang listener untuk tombol start dan restart */
             elements.startButton.addEventListener('click', startSession); 
             elements.restartButton.addEventListener('click', restartSession);
+            
+            // Menambahkan style untuk transisi animasi (entry/exit)
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .quiz-entry { animation: quizEntry 0.2s ease-out forwards; }
+                .quiz-exit { animation: quizExit 0.2s ease-in forwards; }
+                @keyframes quizEntry {
+                    from { opacity: 0; transform: scale(0.95); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                @keyframes quizExit {
+                    from { opacity: 1; transform: scale(1); }
+                    to { opacity: 0; transform: scale(0.95); }
+                }
+            `;
+            document.head.appendChild(style);
         };
         
     </script>
