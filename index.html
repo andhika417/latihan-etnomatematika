@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operasi Hitung Etnomatematika</title>
+    <title>Operasi Hitung Etnomatematika (1-10)</title>
     <!-- Memuat Tailwind CSS untuk styling responsif --><script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* --- BACKGROUND ANIMATION DENGAN ELEMEN BUDAYA BALI --- (SANGAT SANGAT RAMAI, TOTAL 25 ELEMEN) */
@@ -413,7 +413,7 @@
 
     <div id="quiz-app" class="quiz-card max-w-xl w-full p-6 sm:p-8 rounded-xl bg-transparent shadow-none border-none">
         <h1 class="text-3xl font-extrabold text-center text-[#a0522d] mb-6 pb-2"> <!-- Teks Judul Cokelat -->
-            Operasi Hitung Etnomatematika (Mode Latihan)
+            Operasi Hitung Etnomatematika <br /> <span class="text-2xl font-semibold">(Mode Latihan)</span>
         </h1>
         
         <!-- Area Mulai (START SLIDE) --><div id="start-area" class="text-center p-8 space-y-6 bg-white rounded-xl border-4 border-[#a0522d] shadow-2xl"> <!-- Border Cokelat -->
@@ -527,21 +527,24 @@
         function generateItemHTML(imageUrl, count) {
             let itemsHTML = '';
             // Tentukan ukuran gambar berdasarkan jumlah
-            let imageClass = 'object-contain';
-            if (count <= 5) {
-                imageClass += ' w-20 h-20 sm:w-24 sm:h-24'; // Besar (diperbesar)
-            } else if (count <= 10) {
-                imageClass += ' w-16 h-16 sm:w-20 sm:h-20'; // Sedang (diperbesar)
+            // PERUBAHAN: Ukuran diperbesar untuk mobile
+            let imageClass = 'object-contain shadow-sm rounded-md'; 
+            
+            if (count <= 2) {
+                imageClass += ' w-32 h-32 sm:w-40 sm:h-40'; // Sangat besar untuk 1-2 item
+            } else if (count <= 4) {
+                imageClass += ' w-24 h-24 sm:w-28 sm:h-28'; // Besar untuk 3-4 item
+            } else if (count <= 6) {
+                imageClass += ' w-20 h-20 sm:w-24 sm:h-24'; // Sedang untuk 5-6 item
             } else {
-                imageClass += ' w-12 h-12 sm:w-16 sm:h-16'; // Kecil (diperbesar)
+                // Untuk 7-10 item
+                imageClass += ' w-16 h-16 sm:w-20 sm:h-20'; // Kecil tapi lebih jelas dari sebelumnya
             }
             
-            // Batasi jumlah gambar agar tidak 'meledak' di layar, maks 15.
-            const displayCount = Math.min(count, 15); 
+            // Batasi jumlah gambar agar tidak 'meledak' di layar, maks 12.
+            const displayCount = Math.min(count, 12); 
 
             for (let i = 0; i < displayCount; i++) {
-                // Menggunakan 'onerror' untuk fallback jika URL gambar rusak
-                // Ukuran sekarang dinamis dari imageClass
                 itemsHTML += `
                     <img 
                         src="${imageUrl}" 
@@ -552,15 +555,9 @@
                 `;
             }
 
-            // Jika jumlahnya lebih dari 15, tambahkan teks
-            if (count > 15) {
-                itemsHTML += `<p class="text-lg text-center w-full col-span-full">... dan seterusnya (${count} total)</p>`;
-            }
-
-            // Menggunakan flexbox untuk tata letak
-            // Kontainer ini akan di-scroll jika itemnya terlalu banyak
+            // Hapus overflow-y-auto, ganti dengan overflow-hidden dan content-center
             return `
-                <div class="w-full h-full flex flex-wrap justify-center items-center gap-2 p-4 overflow-y-auto">
+                <div class="w-full h-full flex flex-wrap justify-center items-center gap-2 p-1 overflow-hidden content-center">
                     ${itemsHTML}
                 </div>
             `;
@@ -569,18 +566,17 @@
         
         /* --- Konfigurasi Data Flashcard --- */
         /* Format diubah untuk menggunakan imageUrl dan generateItemHTML */
-        /* GANTI URL PLACEHOLDER DI BAWAH INI DENGAN URL GAMBAR ANDA */
+        /* SEMUA SOAL DISESUAIKAN AGAR HASIL/ANGKA MAKSIMAL 10 (TIDAK ADA BELASAN) */
         let flashcardData = [
             { 
                 questionText: "1 Canang Sari + 5 Canang Sari = ...", 
                 answerValue: 6, 
                 answerItem: "Canang Sari", 
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaIQ92ETwrxHPOI9Zgta4tp-fVbXw94OS_XA&shttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaIQ92ETwrxHPOI9Zgta4tp-fVbXw94OS_XA&s", 
-                // 'html' tidak perlu di-pre-generate lagi, kita panggil generateItemHTML saat loadCard
             },
             { 
-                questionText: "15 Batik - 5 Batik = ...", 
-                answerValue: 10, 
+                questionText: "8 Batik - 3 Batik = ...", 
+                answerValue: 5, 
                 answerItem: "Batik", 
                 imageUrl: "https://png.pngtree.com/png-clipart/20221221/original/pngtree-photo-of-mens-long-sleeve-batik-shirt-png-image_8792828.png", 
             },
@@ -591,20 +587,20 @@
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQK3Km5LJxOR5OkaYBOu_ZFnnxh6oTUHoCsbw&s", 
             },
             { 
-                questionText: "2 Penari Barong + 13 Penari Barong = ...", 
-                answerValue: 15, 
+                questionText: "2 Penari Barong + 3 Penari Barong = ...", 
+                answerValue: 5, 
                 answerItem: "Penari Barong", 
                 imageUrl: "https://airport.id/wp-content/uploads/2014/10/barong.jpg", 
             },
             { 
-                questionText: "11 Topeng Bali - 3 Topeng Bali = ...", 
-                answerValue: 8, 
+                questionText: "9 Topeng Bali - 2 Topeng Bali = ...", 
+                answerValue: 7, 
                 answerItem: "Topeng Bali", 
                 imageUrl: "https://down-id.img.susercontent.com/file/a1094de148c4177afae668b36ae657e2", 
             },
             { 
-                questionText: "6 Keris + 6 Keris = ...", 
-                answerValue: 12, 
+                questionText: "4 Keris + 4 Keris = ...", 
+                answerValue: 8, 
                 answerItem: "Keris", 
                 imageUrl: "https://png.pngtree.com/png-clipart/20220816/ourmid/pngtree-keris-gambar-naga-png-image_6111439.png", 
             },
@@ -615,8 +611,8 @@
                 imageUrl: "https://www.shutterstock.com/image-illustration/angklung-musical-instrument-3d-icon-600nw-2235701057.jpg", 
             },
             { 
-                questionText: "20 Gamelan - 6 Gamelan = ...", 
-                answerValue: 14, 
+                questionText: "10 Gamelan - 4 Gamelan = ...", 
+                answerValue: 6, 
                 answerItem: "Alat Gamelan", 
                 imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjkOHL3gt3fjhF5Qlt-t5XqmTK1oZ5-3IEiA&s", 
             },
@@ -709,7 +705,8 @@
             // *** PERBAIKAN TOMBOL NEXT/SELESAI ***
             // Periksa apakah ini kartu terakhir untuk mengubah teks tombol
             if (currentCardIndex === flashcardData.length - 1) {
-                elements.nextCardButton.innerHTML = "Selesai"; // Ganti teks jadi Selesai
+                // Menggunakan Ikon Centang agar tetap dalam lingkaran
+                elements.nextCardButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16"><path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/></svg>`; 
             } else {
                 elements.nextCardButton.innerHTML = "&raquo;"; // Teks panah
             }
